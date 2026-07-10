@@ -24,6 +24,7 @@ function GlobalStyles() {
       .cin-mrow:hover>div{animation-play-state:paused}
       .cin-cta:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 42px rgba(52,216,173,.45)}
       .cin-cta:active{transform:translateY(0) scale(0.98)}
+      @keyframes cin-tabFloat{0%,100%{margin-top:0}50%{margin-top:-10px}}
       @media (prefers-reduced-motion: reduce){ .cin-reveal-fwd{animation:none!important;opacity:1!important;transform:none!important} }
     `}</style>
   );
@@ -190,7 +191,6 @@ const BIO = "0-1 builder at the intersection of cybersecurity and AI, whether sh
 // word on its own plain line. See buildHeroLines() below.
 const HERO_HEADLINE = ["Building", "Products", "and", "Experiences", "that", "Inspire", "Trust", "and", "create", "real", "Impact."];
 const HERO_NAME = "Sachin Rai";
-const HERO_ID = "ID #SR-21";
 
 /* Footer content */
 const FOOTER_EMAIL = "sachin.rai2113@gmail.com";
@@ -352,16 +352,21 @@ function Hero() {
         </h1>
       </div>
 
-      <div style={{ position: "relative", zIndex: 4, display: "flex", justifyContent: "center", padding: "0 clamp(20px,4vw,40px) clamp(56px,8vh,88px)" }}>
-        <div style={{ width: "min(560px,94vw)", opacity: 0, animation: "cin-fadeUp .9s cubic-bezier(.22,1,.36,1) .9s forwards", background: T.bg2, border: `1px solid rgba(${T.rgb},.24)`, padding: "18px 26px", borderRadius: 28, display: "flex", alignItems: "center", gap: 22, boxShadow: "0 24px 60px rgba(0,0,0,.45)" }}>
-          <div style={{ width: 108, height: 108, flexShrink: 0, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.acc}` }}>
+      <div style={{ position: "relative", zIndex: 4, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 clamp(20px,4vw,40px) clamp(56px,8vh,88px)" }}>
+        <div style={{ position: "relative", width: 156, height: 156, opacity: 0, animation: "cin-fadeUp .9s cubic-bezier(.22,1,.36,1) .78s forwards" }}>
+          {/* stacked depth rings behind the avatar */}
+          <div style={{ position: "absolute", inset: -28, borderRadius: "50%", border: `1px solid rgba(${T.rgb},.12)` }} />
+          <div style={{ position: "absolute", inset: -14, borderRadius: "50%", border: `1px solid rgba(${T.rgb},.2)` }} />
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.acc}`, boxShadow: `0 0 50px rgba(${T.rgb},.35)` }}>
             <img src="/avatar.jpg" alt={HERO_NAME} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </div>
-          <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "'Instrument Serif',serif", fontSize: 30, color: T.txt }}>{HERO_NAME}</span>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={T.acc} strokeWidth={2.4}><path d="M12 2l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V5l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
-            <span style={{ font: "500 12px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", color: T.mut }}>{HERO_ID}</span>
-          </div>
+        </div>
+        <div style={{
+          display: "flex", alignItems: "center", gap: 12, marginTop: 20,
+          opacity: 0, animation: "cin-fadeUp .9s cubic-bezier(.22,1,.36,1) .9s forwards",
+        }}>
+          <span style={{ fontFamily: "'Instrument Serif',serif", fontSize: "clamp(2rem,4vw,3rem)", color: T.txt }}>{HERO_NAME}</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={T.acc} strokeWidth={2.2}><path d="M12 2l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V5l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
         </div>
       </div>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2, background: "radial-gradient(120% 90% at 50% 40%,transparent 42%,rgba(0,0,0,.6) 100%)" }} />
@@ -439,28 +444,149 @@ function About() {
   );
 }
 
+/* ── tab icons ────────────────────────────────────────────────── */
+const TAB_ICON: Record<Tab, React.ReactNode> = {
+  Experience: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+    </svg>
+  ),
+  Certifications: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-4z" /><path d="M9 12l2 2 4-4" />
+    </svg>
+  ),
+  Education: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 10L12 5 2 10l10 5 10-5z" /><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
+    </svg>
+  ),
+};
+
+/* ── docked pill switcher — sits below the heading at rest ──────── */
+function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+      <div style={{
+        display: "flex", gap: 4, padding: 8, borderRadius: 20,
+        background: `linear-gradient(135deg, rgba(${T.rgb},.14), rgba(4,16,11,.5))`,
+        backdropFilter: "blur(16px)", border: `1px solid rgba(${T.rgb},.28)`,
+        boxShadow: `0 20px 50px rgba(0,0,0,.4), 0 0 0 1px rgba(${T.rgb},.06) inset`,
+      }}>
+        {TABS.map((t) => {
+          const active = tab === t;
+          return (
+            <button key={t} onClick={() => setTab(t)} style={{
+              display: "flex", alignItems: "center", gap: 10,
+              padding: "14px 28px", borderRadius: 14, border: "none", cursor: "pointer",
+              font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".06em",
+              background: active ? `linear-gradient(135deg,${T.acc},${T.acc2})` : "transparent",
+              color: active ? T.bg0 : T.mut,
+              boxShadow: active ? `0 8px 22px rgba(${T.rgb},.45)` : "none",
+              transform: active ? "scale(1.04)" : "scale(1)",
+              transition: "all .3s cubic-bezier(.22,1,.36,1)",
+            }}>
+              {TAB_ICON[t]}
+              {t}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── floating drawer tab switcher — slides out from the left edge, Journey-only ── */
+function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
+  return (
+    <div style={{
+      position: "fixed", left: 0, top: "50%", zIndex: 45,
+      transform: "translateY(-50%)",
+      maxWidth: visible ? 220 : 0,
+      opacity: visible ? 1 : 0,
+      overflow: "hidden",
+      pointerEvents: visible ? "auto" : "none",
+      transition: visible
+        ? "max-width .5s cubic-bezier(.22,1,.36,1) .05s, opacity .3s ease .05s"
+        : "max-width .4s cubic-bezier(.5,0,.2,1) 0s, opacity .2s ease 0s",
+      animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
+    }}>
+      <div style={{
+        display: "flex", flexDirection: "column", gap: 6, width: 210,
+        background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.6))`,
+        backdropFilter: "blur(20px)", borderRadius: "0 20px 20px 0",
+        borderTop: `1px solid rgba(${T.rgb},.28)`, borderRight: `1px solid rgba(${T.rgb},.28)`, borderBottom: `1px solid rgba(${T.rgb},.28)`,
+        padding: "10px 10px 10px 16px", marginLeft: -1,
+        boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
+      }}>
+        {TABS.map((t) => {
+          const active = tab === t;
+          return (
+            <button key={t} onClick={() => setTab(t)} title={t} style={{
+              position: "relative", display: "flex", alignItems: "center", gap: 12,
+              padding: "14px 16px", borderRadius: 14, border: "none", cursor: "pointer",
+              font: "700 12px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+              background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
+              color: active ? T.txt : T.mut,
+              transform: active ? "scale(1.06)" : "scale(1)",
+              transition: "all .3s cubic-bezier(.22,1,.36,1)",
+              whiteSpace: "nowrap",
+            }}>
+              <span style={{
+                display: "flex", color: active ? T.acc : "inherit",
+                filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
+              }}>{TAB_ICON[t]}</span>
+              {t}
+              <span style={{
+                position: "absolute", left: -6, top: "50%", transform: "translateY(-50%)",
+                width: 3, height: active ? "60%" : "0%", borderRadius: 99,
+                background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
+                transition: "height .3s ease",
+              }} />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ── JOURNEY ──────────────────────────────────────────────────── */
 function Journey() {
   const [tab, setTab] = useState<Tab>("Experience");
   const items = tab === "Experience" ? experience : tab === "Certifications" ? certs : edu;
   const refs = useStackScale(items.length, 110, 20);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const dockedRef = useRef<HTMLDivElement>(null);
+  const [floating, setFloating] = useState(false);
+  useEffect(() => {
+    const check = () => {
+      const section = sectionRef.current, pill = dockedRef.current;
+      if (!section || !pill) return;
+      const sectionRect = section.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      // Only float once the docked pill has scrolled above the fixed nav (~90px),
+      // and only while the Journey section itself still occupies real screen space
+      // below that point — so it never leaks into Hero/About or Case Studies.
+      const pillScrolledAbove = pillRect.bottom < 90;
+      const sectionStillOnScreen = sectionRect.top < window.innerHeight - 160 && sectionRect.bottom > 200;
+      setFloating(pillScrolledAbove && sectionStillOnScreen);
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+  }, []);
+
   return (
-    <section id="journey" style={{ position: "relative", zIndex: 7, background: T.bg1, borderRadius: "32px 32px 0 0", marginTop: -32, padding: "clamp(40px,6vh,72px) 0 28px", overflow: "visible" }}>
+    <section ref={sectionRef} id="journey" style={{ position: "relative", zIndex: 7, background: T.bg1, borderRadius: "32px 32px 0 0", marginTop: -32, padding: "clamp(40px,6vh,72px) 0 28px", overflow: "visible" }}>
+      <FloatingTabSwitcher tab={tab} setTab={setTab} visible={floating} />
       {/*<Reveal><p style={{ textAlign: "center", font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".28em", textTransform: "uppercase", color: T.mut, margin: "0 0 12px" }}>Eight Years · One Through-Line</p></Reveal>*/}
       <Reveal><h2 style={{ textAlign: "center", margin: "0 0 24px", fontWeight: 800, fontSize: "clamp(2.8rem,11vw,9rem)", lineHeight: 0.88, letterSpacing: "-.03em", textTransform: "uppercase", background: `linear-gradient(120deg,${T.acc2},${T.acc})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>The Journey</h2></Reveal>
 
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, position: "sticky", top: 14, zIndex: 40 }}>
-        <div style={{ display: "flex", gap: 4, padding: "5px 6px", background: `rgba(${T.rgb},.08)`, border: `1px solid rgba(${T.rgb},.16)`, borderRadius: 14, backdropFilter: "blur(10px)" }}>
-          {TABS.map((t) => (
-            <button key={t} onClick={() => setTab(t)} style={{
-              padding: "9px 22px", borderRadius: 10, border: "none", cursor: "pointer",
-              font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em",
-              background: tab === t ? T.acc : "transparent", color: tab === t ? T.bg0 : T.mut,
-              transition: "all .2s",
-            }}>{t}</button>
-          ))}
-        </div>
+      <div ref={dockedRef}>
+        <DockedTabSwitcher tab={tab} setTab={setTab} />
       </div>
 
       <div style={{ maxWidth: 1040, margin: "0 auto", padding: "0 clamp(16px,4vw,40px)" }}>
@@ -596,6 +722,86 @@ function Projects() {
   );
 }
 
+/* ── contact picker — replaces raw mailto: to avoid the OS app-open prompt ── */
+function ContactPicker() {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [open]);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(FOOTER_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch { /* clipboard unavailable — no-op */ }
+  };
+
+  return (
+    <div ref={ref} style={{ position: "relative", display: "inline-block" }}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        style={{
+          display: "inline-flex", alignItems: "center", gap: 12,
+          fontFamily: "'Instrument Serif',serif", fontStyle: "italic", fontSize: "clamp(2rem,5vw,3.6rem)",
+          color: T.txt, background: "none", border: "none", cursor: "pointer", padding: 0,
+          borderBottom: `2px solid rgba(${T.rgb},.4)`, paddingBottom: ".08em",
+        }}
+      >
+        get in touch <span style={{ display: "inline-block", animation: "cin-arrow 1.8s ease-in-out infinite", color: T.acc }}>→</span>
+      </button>
+
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 14px)", left: 0, zIndex: 20,
+          display: "flex", flexDirection: "column", gap: 6, minWidth: 260,
+          background: T.bg2, border: `1px solid rgba(${T.rgb},.3)`, borderRadius: 16,
+          padding: 10, boxShadow: "0 24px 60px rgba(0,0,0,.5)",
+        }}>
+          <a href={FOOTER_LINKEDIN} target="_blank" rel="noopener"
+            style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderRadius: 10, textDecoration: "none", color: T.txt, font: "600 0.95rem/1 'Hanken Grotesk'" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = `rgba(${T.rgb},.12)`; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+          >
+            <span style={{ color: T.acc }}>in</span> Connect on LinkedIn
+          </a>
+          <button onClick={copyEmail}
+            style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderRadius: 10, background: "transparent", border: "none", cursor: "pointer", color: T.txt, font: "600 0.95rem/1 'Hanken Grotesk'", textAlign: "left" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = `rgba(${T.rgb},.12)`; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+          >
+            <span style={{ color: T.acc }}>✉</span> {copied ? "Copied to clipboard!" : `Copy ${FOOTER_EMAIL}`}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CopyEmailLink() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(FOOTER_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch { /* clipboard unavailable — no-op */ }
+  };
+  return (
+    <button onClick={copy} style={{ color: copied ? T.acc : T.mut, textDecoration: "none", background: "none", border: "none", cursor: "pointer", font: "inherit", padding: 0 }}>
+      {copied ? "Copied!" : "Email"}
+    </button>
+  );
+}
+
 /* ── FOOTER ───────────────────────────────────────────────────── */
 function Footer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -610,18 +816,14 @@ function Footer() {
             {FOOTER_LINE_1} <em style={{ fontStyle: "italic", fontWeight: 500, background: `linear-gradient(120deg,${T.acc},${T.acc2})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>{FOOTER_LINE_1_ACCENT}</em>, {FOOTER_LINE_2} <em style={{ fontStyle: "italic", fontWeight: 500, background: `linear-gradient(120deg,${T.acc},${T.acc2})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>{FOOTER_LINE_2_ACCENT}</em>, {FOOTER_LINE_3}
           </p>
         </Reveal>
-        <Reveal>
-          <a href={`mailto:${FOOTER_EMAIL}`} style={{ display: "inline-flex", alignItems: "center", gap: 12, fontFamily: "'Instrument Serif',serif", fontStyle: "italic", fontSize: "clamp(2rem,5vw,3.6rem)", color: T.txt, textDecoration: "none", borderBottom: `2px solid rgba(${T.rgb},.4)`, paddingBottom: ".08em" }}>
-            get in touch <span style={{ display: "inline-block", animation: "cin-arrow 1.8s ease-in-out infinite", color: T.acc }}>→</span>
-          </a>
-        </Reveal>
+        <Reveal><ContactPicker /></Reveal>
         <div style={{ height: 1, background: `rgba(${T.rgb},.12)`, margin: "clamp(1.8rem,4vw,2.6rem) 0 1.2rem" }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14 }}>
           <p style={{ margin: 0, font: "400 10px/1 'JetBrains Mono',monospace", letterSpacing: ".16em", textTransform: "uppercase", color: T.mut }}>{FOOTER_SIGNOFF}</p>
           <div style={{ display: "flex", gap: 18, font: "600 10px/1 'JetBrains Mono',monospace", letterSpacing: ".14em", textTransform: "uppercase", color: T.mut }}>
             <a href={FOOTER_LINKEDIN} target="_blank" rel="noopener" style={{ color: T.mut, textDecoration: "none" }}>LinkedIn</a>
             <a href={FOOTER_GITHUB} target="_blank" rel="noopener" style={{ color: T.mut, textDecoration: "none" }}>GitHub</a>
-            <a href={`mailto:${FOOTER_EMAIL}`} style={{ color: T.mut, textDecoration: "none" }}>Email</a>
+            <CopyEmailLink />
           </div>
         </div>
       </div>
