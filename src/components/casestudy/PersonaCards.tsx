@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import mayaFace from "./Maya_Chen.png";
 import jamesFace from "./James_Okafor.png";
 import priyaFace from "./Priya_Sharma.png";
@@ -271,6 +271,80 @@ function DetailPanel({ p, open, left }: { p: Persona; open: boolean; left: boole
   );
 }
 
+/* ── compact mode: below this width, NameCard(300) + Panel(700) never
+     fit side-by-side, and the reveal relies on hover which doesn't exist
+     on touch — so instead of a broken drawer, render everything stacked
+     and always visible ──────────────────────────────────────────── */
+function useIsCompact() {
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const update = () => setCompact(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return compact;
+}
+
+function CompactPersonaCard({ p }: { p: Persona }) {
+  return (
+    <div style={{
+      background: SURFACE, borderRadius: 24, border: `1px solid ${mint(0.24)}`,
+      padding: "24px 20px", boxShadow: `0 18px 44px rgba(15,60,45,.22)`,
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+        <div style={{
+          width: 56, height: 56, borderRadius: "50%", flexShrink: 0, overflow: "hidden",
+          background: ORB_GRAD, display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: `0 0 0 2px ${mint(0.4)}`,
+        }}>
+          {p.face ? (
+            <img src={p.face} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          ) : (
+            <span style={{ fontFamily: "'Times New Roman', Times, serif", fontWeight: 700, fontSize: "1rem", color: INK }}>{p.initials}</span>
+          )}
+        </div>
+        <div>
+          <p style={{ fontFamily: "'Times New Roman', Times, serif", fontWeight: 700, fontSize: "1.2rem", color: "#fff", lineHeight: 1.15 }}>{p.name}</p>
+          <p style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.78rem", color: MINT, marginTop: 2 }}>{p.role}</p>
+        </div>
+      </div>
+
+      <p style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.7rem", letterSpacing: "0.16em", textTransform: "uppercase", color: MINT, marginBottom: 10 }}>{p.tag}</p>
+
+      <p style={{
+        fontFamily: "'Times New Roman', Times, serif", fontStyle: "italic", fontSize: "1.02rem",
+        color: "#fff", lineHeight: 1.5, borderLeft: `3px solid ${MINT}`, paddingLeft: 13, marginBottom: 16,
+      }}>{p.quote}</p>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 8, marginBottom: 18 }}>
+        {p.meta.map(([k, v]) => (
+          <div key={k} style={{ background: mint(0.10), border: `1px solid ${mint(0.32)}`, borderRadius: 11, padding: "9px 6px", textAlign: "center" }}>
+            <div style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase", color: SUB, marginBottom: 3 }}>{k}</div>
+            <div style={{ fontFamily: "'Times New Roman', Times, serif", fontWeight: 700, fontSize: "0.9rem", color: MINT }}>{v}</div>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: SUB, marginBottom: 9 }}>Frustrations</p>
+      <ul style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 16 }}>
+        {p.frustrations.map((f, j) => (
+          <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+            <span style={{ color: MINT, fontSize: "0.9rem", lineHeight: 1.5, flexShrink: 0 }}>✕</span>
+            <span style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.9rem", color: BODY, lineHeight: 1.5 }}>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div style={{ background: mint(0.10), border: `1px solid ${mint(0.32)}`, borderRadius: 12, padding: "11px 14px" }}>
+        <p style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: MINT, marginBottom: 5 }}>◎ Conversion Trigger</p>
+        <p style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "0.9rem", color: "#fff", lineHeight: 1.5 }}>{p.trigger}</p>
+      </div>
+    </div>
+  );
+}
+
 /* ── one persona row ──────────────────────────────────────────── */
 function PersonaRow({ p, index, open, onEnter, onLeave }: { p: Persona; index: number; open: boolean; onEnter: () => void; onLeave: () => void }) {
   const left = index % 2 === 1;
@@ -293,24 +367,27 @@ function PersonaRow({ p, index, open, onEnter, onLeave }: { p: Persona; index: n
 /* ── root ──────────────────────────────────────────────────────── */
 export default function PersonaCards({ personas = PERSONAS }: { personas?: Persona[] }) {
   const [hover, setHover] = useState<number | null>(null);
+  const compact = useIsCompact();
 
   return (
-    <div style={{ maxWidth: 1120, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }}>
+    <div style={{ maxWidth: 1120, margin: "0 auto", display: "flex", flexDirection: "column", gap: compact ? 20 : 28 }}>
       <style>{`
         @keyframes pc-spin { to { transform: rotate(360deg); } }
         @keyframes pc-floaty { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-9px);} }
         @keyframes pc-floaty-tok { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(6px);} }
       `}</style>
-      {personas.map((p, i) => (
-        <PersonaRow
-          key={p.num}
-          p={p}
-          index={i}
-          open={hover === i}
-          onEnter={() => setHover(i)}
-          onLeave={() => setHover(null)}
-        />
-      ))}
+      {compact
+        ? personas.map((p) => <CompactPersonaCard key={p.num} p={p} />)
+        : personas.map((p, i) => (
+            <PersonaRow
+              key={p.num}
+              p={p}
+              index={i}
+              open={hover === i}
+              onEnter={() => setHover(i)}
+              onLeave={() => setHover(null)}
+            />
+          ))}
     </div>
   );
 }
