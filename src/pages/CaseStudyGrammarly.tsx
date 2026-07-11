@@ -302,15 +302,15 @@ export default function CaseStudyGrammarly() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {AUDIT_STEPS.map((step, i) => (
               <Reveal key={i} delay={100 * (i + 1)}>
-                <div style={{ display: 'flex', flexDirection: 'row', borderRadius: 16, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
-                  <div style={{ width: 180, padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0, background: CARD2 }}>
+                <div className="audit-step" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', borderRadius: 16, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
+                  <div style={{ width: 180, minWidth: 180, padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0, flexGrow: 1, background: CARD2 }}>
                     <div>
                       <div style={{ fontSize: '1.15rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 8 }}>{step.num}</div>
                       <div style={{ fontSize: '1.25rem', fontWeight: 700, lineHeight: 1.3, color: TEXT }}>{step.label}</div>
                     </div>
                     <div style={{ marginTop: 16, display: 'inline-block', padding: '4px 12px', borderRadius: 9999, fontSize: '1.15rem', fontWeight: 700, background: `${step.badgeColor}18`, color: step.badgeColor, border: `1px solid ${step.badgeColor}40` }}>{step.badge}</div>
                   </div>
-                  <div style={{ padding: 24, flex: 1, background: CARD }}>
+                  <div style={{ padding: 24, flex: '999 1 260px', minWidth: 260, background: CARD }}>
                     <p style={{ fontSize: '1.25rem', lineHeight: 1.7, marginBottom: 16, color: MUTED }}>{step.body}</p>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: 12, background: `${step.problemColor}0d`, border: `1px solid ${step.problemColor}30` }}>
                       <AlertTriangle size={16} style={{ color: step.problemColor, marginTop: 2, flexShrink: 0 }} />
