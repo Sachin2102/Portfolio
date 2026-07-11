@@ -25,6 +25,17 @@ function GlobalStyles() {
       .cin-cta:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 42px rgba(52,216,173,.45)}
       .cin-cta:active{transform:translateY(0) scale(0.98)}
       @keyframes cin-tabFloat{0%,100%{margin-top:0}50%{margin-top:-10px}}
+      .cin-scrollx{scrollbar-width:none;-ms-overflow-style:none}
+      .cin-scrollx::-webkit-scrollbar{display:none}
+      @media (max-width:680px){
+        .cin-navlinks{overflow-x:auto;flex-wrap:nowrap!important;max-width:46vw;-webkit-overflow-scrolling:touch}
+        .cin-navloc{display:none!important}
+        .cin-logo{font-size:22px!important}
+      }
+      @media (max-width:520px){
+        .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        .cin-dockpill>button{padding:12px 18px!important;font-size:11px!important}
+      }
       @media (prefers-reduced-motion: reduce){ .cin-reveal-fwd{animation:none!important;opacity:1!important;transform:none!important} }
     `}</style>
   );
@@ -293,17 +304,17 @@ function Nav() {
       background: `rgba(4,16,11,.7)`, backdropFilter: "blur(14px)",
       borderBottom: `1px solid rgba(${T.rgb},.14)`,
     }}>
-      <span style={{ fontFamily: "'Instrument Serif',serif", fontSize: 30, color: T.txt }}>Sachin<span style={{ color: T.acc }}>.</span></span>
-      <div style={{ display: "flex", alignItems: "center", gap: "clamp(14px,2.1vw,30px)", font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".18em", textTransform: "uppercase", color: T.mut }}>
+      <span className="cin-logo" style={{ fontFamily: "'Instrument Serif',serif", fontSize: 30, color: T.txt, flexShrink: 0 }}>Sachin<span style={{ color: T.acc }}>.</span></span>
+      <div className="cin-navlinks cin-scrollx" style={{ display: "flex", alignItems: "center", gap: "clamp(14px,2.1vw,30px)", font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".18em", textTransform: "uppercase", color: T.mut, flexWrap: "wrap" }}>
         {links.map(([id, label]) => (
           <a key={id} href={`#${id}`}
             onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
-            style={{ cursor: "pointer", textDecoration: "none", transition: "color .2s", color: active === id ? T.txt : T.mut, fontWeight: active === id ? 800 : 600 }}>
+            style={{ cursor: "pointer", textDecoration: "none", transition: "color .2s", color: active === id ? T.txt : T.mut, fontWeight: active === id ? 800 : 600, whiteSpace: "nowrap" }}>
             {label}
           </a>
         ))}
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div className="cin-navloc" style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
         <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.acc, boxShadow: `0 0 8px 1px rgba(${T.rgb},.8)`, flexShrink: 0 }} />
         <span style={{ font: "700 10px/1 'JetBrains Mono',monospace", letterSpacing: ".15em", color: T.txt, whiteSpace: "nowrap" }}>{visitorLocation}</span>
       </div>
@@ -466,18 +477,19 @@ const TAB_ICON: Record<Tab, React.ReactNode> = {
 /* ── docked pill switcher — sits below the heading at rest ──────── */
 function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
   return (
-    <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-      <div style={{
+    <div style={{ display: "flex", justifyContent: "center", marginBottom: 24, padding: "0 20px" }}>
+      <div className="cin-dockpill cin-scrollx" style={{
         display: "flex", gap: 4, padding: 8, borderRadius: 20,
         background: `linear-gradient(135deg, rgba(${T.rgb},.14), rgba(4,16,11,.5))`,
         backdropFilter: "blur(16px)", border: `1px solid rgba(${T.rgb},.28)`,
         boxShadow: `0 20px 50px rgba(0,0,0,.4), 0 0 0 1px rgba(${T.rgb},.06) inset`,
+        maxWidth: "100%", overflowX: "auto",
       }}>
         {TABS.map((t) => {
           const active = tab === t;
           return (
             <button key={t} onClick={() => setTab(t)} style={{
-              display: "flex", alignItems: "center", gap: 10,
+              display: "flex", alignItems: "center", gap: 10, flexShrink: 0, whiteSpace: "nowrap",
               padding: "14px 28px", borderRadius: 14, border: "none", cursor: "pointer",
               font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".06em",
               background: active ? `linear-gradient(135deg,${T.acc},${T.acc2})` : "transparent",
