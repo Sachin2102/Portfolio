@@ -35,16 +35,9 @@ function GlobalStyles() {
       @media (max-width:640px){
         .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important}
         .cin-dockpill>button{padding:12px 18px!important;font-size:11px!important}
-        .cin-floatswitch{
-          left:50%!important; right:auto!important; top:auto!important; bottom:16px!important;
-          transform:translateX(-50%)!important; max-width:none!important; animation:none!important;
-        }
-        .cin-floatswitch-inner{
-          flex-direction:row!important; width:auto!important; border-radius:18px!important;
-          padding:6px!important; margin-left:0!important;
-          border:1px solid rgba(52,216,173,.3)!important;
-        }
-        .cin-floatswitch-inner button{ padding:11px!important; gap:0!important; }
+      }
+      @media (max-width:520px){
+        .cin-floatswitch-inner button{ padding:12px!important; gap:0!important; }
         .cin-tabswitch-label{ display:none; }
         .cin-tabswitch-indicator{ display:none; }
       }
@@ -520,38 +513,39 @@ function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void
   );
 }
 
-/* ── floating drawer tab switcher — slides out from the left edge on desktop,
-     collapses to a compact icon bar pinned to the bottom on mobile so it
-     never overlaps card content (see .cin-floatswitch media query) ────── */
+/* ── floating tab switcher — pinned to the bottom center once the docked
+     pill scrolls out, at every screen size. A left-side drawer was tried
+     first but a fixed-width panel at left:0 collides with card content on
+     any viewport where the content column doesn't leave 220px+ of gutter
+     — which is most laptop/tablet/phone widths. Bottom-center avoids that
+     entirely since it floats below the content column instead of beside it. */
 function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
   return (
     <div className="cin-floatswitch" style={{
-      position: "fixed", left: 0, top: "50%", zIndex: 45,
-      transform: "translateY(-50%)",
-      maxWidth: visible ? 220 : 0,
+      position: "fixed", left: "50%", bottom: 20, top: "auto", zIndex: 45,
+      transform: visible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(16px)",
       opacity: visible ? 1 : 0,
-      overflow: "hidden",
       pointerEvents: visible ? "auto" : "none",
-      transition: visible
-        ? "max-width .5s cubic-bezier(.22,1,.36,1) .05s, opacity .3s ease .05s"
-        : "max-width .4s cubic-bezier(.5,0,.2,1) 0s, opacity .2s ease 0s",
+      transition: "opacity .35s ease, transform .35s cubic-bezier(.22,1,.36,1)",
       animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
+      maxWidth: "calc(100vw - 32px)",
     }}>
       <div className="cin-floatswitch-inner" style={{
-        display: "flex", flexDirection: "column", gap: 6, width: 210,
-        background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.6))`,
-        backdropFilter: "blur(20px)", borderRadius: "0 20px 20px 0",
-        borderTop: `1px solid rgba(${T.rgb},.28)`, borderRight: `1px solid rgba(${T.rgb},.28)`, borderBottom: `1px solid rgba(${T.rgb},.28)`,
-        padding: "10px 10px 10px 16px", marginLeft: -1,
+        display: "flex", flexDirection: "row", gap: 4,
+        background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.7))`,
+        backdropFilter: "blur(20px)", borderRadius: 18,
+        border: `1px solid rgba(${T.rgb},.28)`,
+        padding: 6,
         boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
+        overflowX: "auto",
       }}>
         {TABS.map((t) => {
           const active = tab === t;
           return (
             <button key={t} onClick={() => setTab(t)} title={t} style={{
-              position: "relative", display: "flex", alignItems: "center", gap: 12,
-              padding: "14px 16px", borderRadius: 14, border: "none", cursor: "pointer",
-              font: "700 12px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+              position: "relative", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
+              padding: "12px 18px", borderRadius: 13, border: "none", cursor: "pointer",
+              font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
               background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
               color: active ? T.txt : T.mut,
               transform: active ? "scale(1.06)" : "scale(1)",
@@ -564,10 +558,10 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
               }}>{TAB_ICON[t]}</span>
               <span className="cin-tabswitch-label">{t}</span>
               <span className="cin-tabswitch-indicator" style={{
-                position: "absolute", left: -6, top: "50%", transform: "translateY(-50%)",
-                width: 3, height: active ? "60%" : "0%", borderRadius: 99,
+                position: "absolute", left: "50%", bottom: -8, transform: "translateX(-50%)",
+                height: 3, width: active ? "60%" : "0%", borderRadius: 99,
                 background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
-                transition: "height .3s ease",
+                transition: "width .3s ease",
               }} />
             </button>
           );
