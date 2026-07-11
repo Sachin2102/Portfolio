@@ -331,7 +331,7 @@ export default function CaseStudyGrammarly() {
             <p style={{ marginBottom: 40, color: MUTED }}>Grammarly does not have a user acquisition problem. It has a monetisation problem.</p>
           </Reveal>
           <Reveal delay={100}>
-            <div style={{ padding: '24px 32px', borderRadius: 16, marginBottom: 32, background: '#fff', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+            <div style={{ padding: 'clamp(16px,4vw,24px) clamp(16px,4vw,32px)', borderRadius: 16, marginBottom: 32, background: '#fff', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 4, color: '#1e293b' }}>The conversion funnel: where users are lost</h3>
               <p style={{ fontSize: '1.2rem', color: '#94a3b8', marginBottom: 16 }}>Each stage represents estimated users based on public data and industry benchmarks</p>
               <ConversionFunnel />

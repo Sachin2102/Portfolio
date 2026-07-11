@@ -8,8 +8,21 @@ const stages = [
   { label: 'Paying Users',                 count: '~1.5M', pct: '5%',   color: 'from-amber-500 to-amber-400',     width: 5   },
 ];
 
+function useIsNarrow(breakpoint = 560) {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const update = () => setNarrow(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, [breakpoint]);
+  return narrow;
+}
+
 export default function ConversionFunnel() {
   const [phase, setPhase] = useState<'skeleton' | 'ready' | 'animating'>('skeleton');
+  const narrow = useIsNarrow();
 
   useEffect(() => {
     const t1 = setTimeout(() => {
@@ -22,33 +35,39 @@ export default function ConversionFunnel() {
   const colors = ['#6366f1', '#06b6d4', '#14b8a6', '#10b981', '#f59e0b'];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', padding: '16px 0' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: narrow ? 14 : 12, width: '100%', padding: '16px 0' }}>
       {stages.map((stage, i) => {
         const isAnimating = phase === 'animating';
         return (
-          <div key={stage.label} style={{ display: 'flex', alignItems: 'center', height: 44, gap: 8 }}>
-            <div style={{ width: 180, textAlign: 'right', paddingRight: 16, flexShrink: 0 }}>
+          <div key={stage.label} style={narrow
+            ? { display: 'flex', flexDirection: 'column', gap: 6 }
+            : { display: 'flex', alignItems: 'center', height: 44, gap: 8 }
+          }>
+            <div style={narrow
+              ? { textAlign: 'left' }
+              : { width: 180, textAlign: 'right', paddingRight: 16, flexShrink: 0 }
+            }>
               {phase === 'skeleton' ? (
-                <div style={{ height: 12, borderRadius: 4, background: '#e2e8f0', marginLeft: 'auto', width: '72%' }} />
+                <div style={{ height: 12, borderRadius: 4, background: '#e2e8f0', marginLeft: narrow ? 0 : 'auto', width: narrow ? '50%' : '72%' }} />
               ) : (
-                <span style={{ fontSize: '0.95rem', color: '#475569', fontWeight: 500 }}>{stage.label}</span>
+                <span style={{ fontSize: narrow ? '0.85rem' : '0.95rem', color: '#475569', fontWeight: 500 }}>{stage.label}</span>
               )}
             </div>
-            <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center' }}>
+            <div style={{ flex: narrow ? 'none' : 1, height: narrow ? 36 : '100%', display: 'flex', alignItems: 'center', width: narrow ? '100%' : 'auto' }}>
               {phase === 'skeleton' ? (
                 <div style={{ height: '100%', borderRadius: '0 12px 12px 0', background: '#e2e8f0', width: `${stage.width}%` }} />
               ) : (
                 <div style={{
                   height: '100%', borderRadius: '0 12px 12px 0',
                   background: `linear-gradient(90deg, ${colors[i]}cc, ${colors[i]})`,
-                  display: 'flex', alignItems: 'center', paddingLeft: 16, paddingRight: 16,
+                  display: 'flex', alignItems: 'center', paddingLeft: 14, paddingRight: 14,
                   overflow: 'hidden',
                   width: isAnimating ? `${stage.width}%` : '0%',
-                  minWidth: isAnimating ? 80 : 0,
+                  minWidth: isAnimating ? (narrow ? 64 : 80) : 0,
                   transition: `width 700ms ease-out ${i * 140}ms, min-width 700ms ease-out ${i * 140}ms`,
                 }}>
                   <span style={{
-                    color: '#fff', fontWeight: 700, fontSize: '0.95rem', whiteSpace: 'nowrap',
+                    color: '#fff', fontWeight: 700, fontSize: narrow ? '0.78rem' : '0.95rem', whiteSpace: 'nowrap',
                     opacity: isAnimating ? 1 : 0,
                     transition: `opacity 300ms ease ${i * 140 + 900}ms`,
                   }}>{stage.count} · {stage.pct}</span>
