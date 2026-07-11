@@ -535,55 +535,56 @@ function useIsNarrow(breakpoint = 860) {
    panel collides with card content once the viewport gets tight. */
 function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
   const narrow = useIsNarrow();
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => { if (!visible) setExpanded(false); }, [visible]);
 
   if (narrow) {
+    /* Mobile: a small corner FAB instead of a full-width bar, so it never
+       sits on top of the bullet-point text column while scrolling. Tap to
+       reveal the tab list as a compact popover anchored above the FAB. */
     return (
-      <div className="cin-floatswitch" style={{
-        position: "fixed", left: "50%", bottom: 20, top: "auto", zIndex: 45,
-        transform: visible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(16px)",
+      <div style={{
+        position: "fixed", right: 16, bottom: 16, top: "auto", left: "auto", zIndex: 45,
+        transform: visible ? "translateY(0)" : "translateY(16px)",
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? "auto" : "none",
         transition: "opacity .35s ease, transform .35s cubic-bezier(.22,1,.36,1)",
-        animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
-        maxWidth: "calc(100vw - 32px)",
+        display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
       }}>
-        <div className="cin-floatswitch-inner" style={{
-          display: "flex", flexDirection: "row", gap: 4,
-          background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.7))`,
-          backdropFilter: "blur(20px)", borderRadius: 18,
-          border: `1px solid rgba(${T.rgb},.28)`,
-          padding: 6,
-          boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
-          overflowX: "auto",
+        {expanded && (
+          <div style={{
+            display: "flex", flexDirection: "column", gap: 4,
+            background: `linear-gradient(160deg, rgba(${T.rgb},.18), rgba(4,16,11,.9))`,
+            backdropFilter: "blur(20px)", borderRadius: 16,
+            border: `1px solid rgba(${T.rgb},.28)`, padding: 6,
+            boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
+          }}>
+            {TABS.map((t) => {
+              const active = tab === t;
+              return (
+                <button key={t} onClick={() => { setTab(t); setExpanded(false); }} style={{
+                  display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
+                  padding: "10px 14px", borderRadius: 11, border: "none", cursor: "pointer",
+                  font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+                  background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
+                  color: active ? T.txt : T.mut, whiteSpace: "nowrap",
+                }}>
+                  <span style={{ display: "flex", color: active ? T.acc : "inherit" }}>{TAB_ICON[t]}</span>
+                  <span>{t}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <button onClick={() => setExpanded((e) => !e)} style={{
+          width: 52, height: 52, borderRadius: "50%", border: `1px solid rgba(${T.rgb},.35)`,
+          background: `linear-gradient(160deg, rgba(${T.rgb},.22), rgba(4,16,11,.85))`,
+          backdropFilter: "blur(20px)", display: "flex", alignItems: "center", justifyContent: "center",
+          color: T.acc, cursor: "pointer", boxShadow: `0 12px 32px rgba(0,0,0,.5), 0 0 24px rgba(${T.rgb},.15)`,
+          animation: !expanded ? "cin-tabFloat 5s ease-in-out infinite" : "none",
         }}>
-          {TABS.map((t) => {
-            const active = tab === t;
-            return (
-              <button key={t} onClick={() => setTab(t)} title={t} style={{
-                position: "relative", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
-                padding: "12px 18px", borderRadius: 13, border: "none", cursor: "pointer",
-                font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
-                background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
-                color: active ? T.txt : T.mut,
-                transform: active ? "scale(1.06)" : "scale(1)",
-                transition: "all .3s cubic-bezier(.22,1,.36,1)",
-                whiteSpace: "nowrap",
-              }}>
-                <span style={{
-                  display: "flex", color: active ? T.acc : "inherit",
-                  filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
-                }}>{TAB_ICON[t]}</span>
-                <span className="cin-tabswitch-label">{t}</span>
-                <span className="cin-tabswitch-indicator" style={{
-                  position: "absolute", left: "50%", bottom: -8, transform: "translateX(-50%)",
-                  height: 3, width: active ? "60%" : "0%", borderRadius: 99,
-                  background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
-                  transition: "width .3s ease",
-                }} />
-              </button>
-            );
-          })}
-        </div>
+          {TAB_ICON[tab]}
+        </button>
       </div>
     );
   }
