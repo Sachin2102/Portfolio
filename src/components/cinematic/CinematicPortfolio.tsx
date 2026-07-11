@@ -513,39 +513,109 @@ function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void
   );
 }
 
-/* ── floating tab switcher — pinned to the bottom center once the docked
-     pill scrolls out, at every screen size. A left-side drawer was tried
-     first but a fixed-width panel at left:0 collides with card content on
-     any viewport where the content column doesn't leave 220px+ of gutter
-     — which is most laptop/tablet/phone widths. Bottom-center avoids that
-     entirely since it floats below the content column instead of beside it. */
+/* ── responsive breakpoint hook (used to switch the floating switcher's
+     layout below, keeping the original left-drawer look on desktop and
+     only swapping to a bottom bar on narrow screens) ──────────────── */
+function useIsNarrow(breakpoint = 860) {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const update = () => setNarrow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [breakpoint]);
+  return narrow;
+}
+
+/* ── floating tab switcher ───────────────────────────────────────
+   Desktop: left-side drawer that slides out from the screen edge
+   (the original design). Mobile/narrow (≤860px): a compact bar
+   pinned to the bottom-center instead, since a fixed-width left
+   panel collides with card content once the viewport gets tight. */
 function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
+  const narrow = useIsNarrow();
+
+  if (narrow) {
+    return (
+      <div className="cin-floatswitch" style={{
+        position: "fixed", left: "50%", bottom: 20, top: "auto", zIndex: 45,
+        transform: visible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(16px)",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+        transition: "opacity .35s ease, transform .35s cubic-bezier(.22,1,.36,1)",
+        animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
+        maxWidth: "calc(100vw - 32px)",
+      }}>
+        <div className="cin-floatswitch-inner" style={{
+          display: "flex", flexDirection: "row", gap: 4,
+          background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.7))`,
+          backdropFilter: "blur(20px)", borderRadius: 18,
+          border: `1px solid rgba(${T.rgb},.28)`,
+          padding: 6,
+          boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
+          overflowX: "auto",
+        }}>
+          {TABS.map((t) => {
+            const active = tab === t;
+            return (
+              <button key={t} onClick={() => setTab(t)} title={t} style={{
+                position: "relative", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
+                padding: "12px 18px", borderRadius: 13, border: "none", cursor: "pointer",
+                font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+                background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
+                color: active ? T.txt : T.mut,
+                transform: active ? "scale(1.06)" : "scale(1)",
+                transition: "all .3s cubic-bezier(.22,1,.36,1)",
+                whiteSpace: "nowrap",
+              }}>
+                <span style={{
+                  display: "flex", color: active ? T.acc : "inherit",
+                  filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
+                }}>{TAB_ICON[t]}</span>
+                <span className="cin-tabswitch-label">{t}</span>
+                <span className="cin-tabswitch-indicator" style={{
+                  position: "absolute", left: "50%", bottom: -8, transform: "translateX(-50%)",
+                  height: 3, width: active ? "60%" : "0%", borderRadius: 99,
+                  background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
+                  transition: "width .3s ease",
+                }} />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="cin-floatswitch" style={{
-      position: "fixed", left: "50%", bottom: 20, top: "auto", zIndex: 45,
-      transform: visible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(16px)",
+    <div style={{
+      position: "fixed", left: 0, top: "50%", zIndex: 45,
+      transform: "translateY(-50%)",
+      maxWidth: visible ? 220 : 0,
       opacity: visible ? 1 : 0,
+      overflow: "hidden",
       pointerEvents: visible ? "auto" : "none",
-      transition: "opacity .35s ease, transform .35s cubic-bezier(.22,1,.36,1)",
+      transition: visible
+        ? "max-width .5s cubic-bezier(.22,1,.36,1) .05s, opacity .3s ease .05s"
+        : "max-width .4s cubic-bezier(.5,0,.2,1) 0s, opacity .2s ease 0s",
       animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
-      maxWidth: "calc(100vw - 32px)",
     }}>
-      <div className="cin-floatswitch-inner" style={{
-        display: "flex", flexDirection: "row", gap: 4,
-        background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.7))`,
-        backdropFilter: "blur(20px)", borderRadius: 18,
-        border: `1px solid rgba(${T.rgb},.28)`,
-        padding: 6,
+      <div style={{
+        display: "flex", flexDirection: "column", gap: 6, width: 210,
+        background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.6))`,
+        backdropFilter: "blur(20px)", borderRadius: "0 20px 20px 0",
+        borderTop: `1px solid rgba(${T.rgb},.28)`, borderRight: `1px solid rgba(${T.rgb},.28)`, borderBottom: `1px solid rgba(${T.rgb},.28)`,
+        padding: "10px 10px 10px 16px", marginLeft: -1,
         boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
-        overflowX: "auto",
       }}>
         {TABS.map((t) => {
           const active = tab === t;
           return (
             <button key={t} onClick={() => setTab(t)} title={t} style={{
-              position: "relative", display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
-              padding: "12px 18px", borderRadius: 13, border: "none", cursor: "pointer",
-              font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+              position: "relative", display: "flex", alignItems: "center", gap: 12,
+              padding: "14px 16px", borderRadius: 14, border: "none", cursor: "pointer",
+              font: "700 12px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
               background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
               color: active ? T.txt : T.mut,
               transform: active ? "scale(1.06)" : "scale(1)",
@@ -556,12 +626,12 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
                 display: "flex", color: active ? T.acc : "inherit",
                 filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
               }}>{TAB_ICON[t]}</span>
-              <span className="cin-tabswitch-label">{t}</span>
-              <span className="cin-tabswitch-indicator" style={{
-                position: "absolute", left: "50%", bottom: -8, transform: "translateX(-50%)",
-                height: 3, width: active ? "60%" : "0%", borderRadius: 99,
+              <span>{t}</span>
+              <span style={{
+                position: "absolute", left: -6, top: "50%", transform: "translateY(-50%)",
+                width: 3, height: active ? "60%" : "0%", borderRadius: 99,
                 background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
-                transition: "width .3s ease",
+                transition: "height .3s ease",
               }} />
             </button>
           );
