@@ -25,15 +25,15 @@ function GlobalStyles() {
       .cin-cta:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 42px rgba(52,216,173,.45)}
       .cin-cta:active{transform:translateY(0) scale(0.98)}
       @keyframes cin-tabFloat{0%,100%{margin-top:0}50%{margin-top:-10px}}
-      .cin-scrollx{scrollbar-width:none;-ms-overflow-style:none}
+      .cin-scrollx{scrollbar-width:none;-ms-overflow-style:none;min-width:0}
       .cin-scrollx::-webkit-scrollbar{display:none}
       @media (max-width:680px){
-        .cin-navlinks{overflow-x:auto;flex-wrap:nowrap!important;max-width:46vw;-webkit-overflow-scrolling:touch}
+        .cin-navlinks{overflow-x:auto;flex-wrap:nowrap!important;flex:1 1 auto;max-width:none;-webkit-overflow-scrolling:touch;justify-content:flex-start!important}
         .cin-navloc{display:none!important}
-        .cin-logo{font-size:22px!important}
+        .cin-logo{font-size:20px!important}
       }
-      @media (max-width:520px){
-        .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch}
+      @media (max-width:640px){
+        .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important}
         .cin-dockpill>button{padding:12px 18px!important;font-size:11px!important}
       }
       @media (prefers-reduced-motion: reduce){ .cin-reveal-fwd{animation:none!important;opacity:1!important;transform:none!important} }
