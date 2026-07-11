@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const stages = [
-  { label: 'Daily Active Users',           count: '30M',   pct: '100%', color: 'from-indigo-500 to-indigo-400',   width: 100 },
-  { label: 'Regularly Hit Feature Limits', count: '~9M',   pct: '30%',  color: 'from-cyan-500 to-cyan-400',       width: 30  },
-  { label: 'See Upgrade Prompt',           count: '~4.5M', pct: '15%',  color: 'from-teal-500 to-teal-400',       width: 15  },
-  { label: 'Click to Learn More',          count: '~2.1M', pct: '7%',   color: 'from-emerald-500 to-emerald-400', width: 7   },
-  { label: 'Paying Users',                 count: '~1.5M', pct: '5%',   color: 'from-amber-500 to-amber-400',     width: 5   },
+  { label: 'Daily Active Users',           count: '30M',   pct: '100%', width: 100 },
+  { label: 'Regularly Hit Feature Limits', count: '~9M',   pct: '30%',  width: 30  },
+  { label: 'See Upgrade Prompt',           count: '~4.5M', pct: '15%',  width: 15  },
+  { label: 'Click to Learn More',          count: '~2.1M', pct: '7%',   width: 7   },
+  { label: 'Paying Users',                 count: '~1.5M', pct: '5%',   width: 5   },
 ];
 
-function useIsNarrow(breakpoint = 560) {
+function useIsNarrow(breakpoint = 640) {
   const [narrow, setNarrow] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
@@ -33,68 +33,36 @@ export default function ConversionFunnel() {
   }, []);
 
   const colors = ['#6366f1', '#06b6d4', '#14b8a6', '#10b981', '#f59e0b'];
+  const isAnimating = phase === 'animating';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: narrow ? 14 : 12, width: '100%', padding: '16px 0' }}>
-      {stages.map((stage, i) => {
-        const isAnimating = phase === 'animating';
-        return (
-          <div key={stage.label} style={narrow
-            ? { display: 'flex', flexDirection: 'column', gap: 6 }
-            : { display: 'flex', alignItems: 'center', height: 44, gap: 8 }
-          }>
-            <div style={narrow
-              ? { textAlign: 'left' }
-              : { width: 180, textAlign: 'right', paddingRight: 16, flexShrink: 0 }
-            }>
-              {phase === 'skeleton' ? (
-                <div style={{ height: 12, borderRadius: 4, background: '#e2e8f0', marginLeft: narrow ? 0 : 'auto', width: narrow ? '50%' : '72%' }} />
-              ) : (
-                <span style={{ fontSize: narrow ? '0.85rem' : '0.95rem', color: '#475569', fontWeight: 500 }}>{stage.label}</span>
-              )}
-            </div>
-            {narrow ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%' }}>
-                <div style={{ flex: 1, height: 28, borderRadius: 8, background: phase === 'skeleton' ? '#e2e8f0' : 'rgba(148,163,184,0.15)', overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%', borderRadius: 8,
-                    background: `linear-gradient(90deg, ${colors[i]}cc, ${colors[i]})`,
-                    width: isAnimating ? `${Math.max(stage.width, 6)}%` : '0%',
-                    transition: `width 700ms ease-out ${i * 140}ms`,
-                  }} />
-                </div>
-                <span style={{
-                  color: '#334155', fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap', flexShrink: 0,
-                  opacity: phase === 'skeleton' ? 0 : 1,
-                  transition: `opacity 300ms ease ${i * 140 + 200}ms`,
-                }}>{stage.count} · {stage.pct}</span>
-              </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: '100%', padding: '16px 0' }}>
+      {stages.map((stage, i) => (
+        <div key={stage.label} style={{ display: 'flex', flexDirection: narrow ? 'column' : 'row', alignItems: narrow ? 'stretch' : 'center', gap: narrow ? 6 : 8 }}>
+          <div style={{ width: narrow ? 'auto' : 200, textAlign: narrow ? 'left' : 'right', paddingRight: narrow ? 0 : 16, flexShrink: 0 }}>
+            {phase === 'skeleton' ? (
+              <div style={{ height: 12, borderRadius: 4, background: '#e2e8f0', marginLeft: narrow ? 0 : 'auto', width: narrow ? '50%' : '72%' }} />
             ) : (
-              <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center' }}>
-                {phase === 'skeleton' ? (
-                  <div style={{ height: '100%', borderRadius: '0 12px 12px 0', background: '#e2e8f0', width: `${stage.width}%` }} />
-                ) : (
-                  <div style={{
-                    height: '100%', borderRadius: '0 12px 12px 0',
-                    background: `linear-gradient(90deg, ${colors[i]}cc, ${colors[i]})`,
-                    display: 'flex', alignItems: 'center', paddingLeft: 16, paddingRight: 16,
-                    overflow: 'hidden',
-                    width: isAnimating ? `${stage.width}%` : '0%',
-                    minWidth: isAnimating ? 80 : 0,
-                    transition: `width 700ms ease-out ${i * 140}ms, min-width 700ms ease-out ${i * 140}ms`,
-                  }}>
-                    <span style={{
-                      color: '#fff', fontWeight: 700, fontSize: '0.95rem', whiteSpace: 'nowrap',
-                      opacity: isAnimating ? 1 : 0,
-                      transition: `opacity 300ms ease ${i * 140 + 900}ms`,
-                    }}>{stage.count} · {stage.pct}</span>
-                  </div>
-                )}
-              </div>
+              <span style={{ fontSize: narrow ? '0.85rem' : '0.95rem', color: '#475569', fontWeight: 500 }}>{stage.label}</span>
             )}
           </div>
-        );
-      })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+            <div style={{ flex: 1, height: narrow ? 28 : 32, borderRadius: 8, background: phase === 'skeleton' ? '#e2e8f0' : 'rgba(148,163,184,0.15)', overflow: 'hidden' }}>
+              <div style={{
+                height: '100%', borderRadius: 8,
+                background: `linear-gradient(90deg, ${colors[i]}cc, ${colors[i]})`,
+                width: isAnimating ? `${Math.max(stage.width, 6)}%` : '0%',
+                transition: `width 700ms ease-out ${i * 140}ms`,
+              }} />
+            </div>
+            <span style={{
+              color: '#334155', fontWeight: 700, fontSize: narrow ? '0.82rem' : '0.92rem', whiteSpace: 'nowrap', flexShrink: 0,
+              opacity: phase === 'skeleton' ? 0 : 1,
+              transition: `opacity 300ms ease ${i * 140 + 200}ms`,
+            }}>{stage.count} · {stage.pct}</span>
+          </div>
+        </div>
+      ))}
       {phase === 'animating' && (
         <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
           {[
