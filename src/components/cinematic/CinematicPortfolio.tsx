@@ -686,32 +686,34 @@ function Journey() {
             <div style={{ willChange: "transform" }}>
               <div style={{ position: "relative", overflow: "hidden", borderRadius: 28, background: `linear-gradient(150deg,${T.bg2},${T.bg0})`, border: `1px solid rgba(${T.rgb},.14)`, padding: "clamp(22px,3vw,34px)", boxShadow: "0 20px 50px rgba(0,0,0,.4)" }}>
                 <span style={{ position: "absolute", top: 16, right: 28, font: "700 10px/1 'JetBrains Mono',monospace", letterSpacing: ".2em", color: `rgba(${T.rgb},.4)` }}>{item.num}</span>
-                <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px,2.5vw,26px)", flexWrap: "wrap" }}>
-                  <div style={{ width: 156, height: 156, flexShrink: 0, borderRadius: 20, background: item.logoBg || "transparent", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "clamp(12px,2.5vw,26px)" }}>
+                  <div style={{ width: "clamp(84px,24vw,156px)", height: "clamp(84px,24vw,156px)", flexShrink: 0, borderRadius: 18, background: item.logoBg || "transparent", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: "clamp(8px,1.5vw,12px)" }}>
                     <LogoEl src={item.logo} alt={item.name} abbr={item.abbr} />
                   </div>
-                  <div style={{ flex: 1, minWidth: 220 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                      <span style={{ font: "600 12px/1 'JetBrains Mono',monospace", letterSpacing: ".14em", textTransform: "uppercase", color: T.acc, border: `1px solid rgba(${T.rgb},.35)`, padding: "5px 12px", borderRadius: 99 }}>{item.badge}</span>
-                      <span style={{ font: "400 12px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", color: T.mut }}>{item.dates}</span>
-                      <span style={{ font: "400 12px/1 'JetBrains Mono',monospace", color: T.mut }}>{item.location}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
+                      <span style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".14em", textTransform: "uppercase", color: T.acc, border: `1px solid rgba(${T.rgb},.35)`, padding: "5px 11px", borderRadius: 99 }}>{item.badge}</span>
+                      <span style={{ font: "400 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", color: T.mut }}>{item.dates}</span>
+                      <span style={{ font: "400 11px/1 'JetBrains Mono',monospace", color: T.mut }}>{item.location}</span>
                     </div>
-                    <h3 style={{ margin: "0 0 8px", fontWeight: 800, fontSize: "clamp(1.25rem,2.6vw,1.8rem)", lineHeight: 1.05, textTransform: "uppercase", color: T.txt }}>{item.name}</h3>
-                    <p style={{ margin: "0 0 16px", font: "700 14px/1.4 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", color: T.acc }}>{item.role}</p>
-                    <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: item.points.length ? 16 : 0 }}>
-                      {item.tags.map((tg) => <span key={tg} style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", border: `1px solid rgba(${T.rgb},.25)`, color: T.mut, padding: "5px 11px", borderRadius: 99, background: `rgba(${T.rgb},.05)` }}>{tg}</span>)}
-                    </div>
-                    {item.points.length > 0 && (
-                      <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
-                        {item.points.map((pt, j) => (
-                          <li key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                            <span style={{ width: 6, height: 6, flexShrink: 0, marginTop: 6, background: T.acc, transform: "rotate(45deg)", boxShadow: `0 0 8px rgba(${T.rgb},.7)` }} />
-                            <span style={{ font: "400 .88rem/1.5 'Hanken Grotesk'", color: T.mut }}>{pt}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <h3 style={{ margin: "0 0 6px", fontWeight: 800, fontSize: "clamp(1.05rem,2.6vw,1.8rem)", lineHeight: 1.08, textTransform: "uppercase", color: T.txt }}>{item.name}</h3>
+                    <p style={{ margin: 0, font: "700 clamp(11px,2.4vw,14px)/1.4 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", color: T.acc }}>{item.role}</p>
                   </div>
+                </div>
+                <div style={{ marginTop: "clamp(14px,2.5vw,18px)" }}>
+                  <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: item.points.length ? 16 : 0 }}>
+                    {item.tags.map((tg) => <span key={tg} style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", border: `1px solid rgba(${T.rgb},.25)`, color: T.mut, padding: "5px 11px", borderRadius: 99, background: `rgba(${T.rgb},.05)` }}>{tg}</span>)}
+                  </div>
+                  {item.points.length > 0 && (
+                    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+                      {item.points.map((pt, j) => (
+                        <li key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                          <span style={{ width: 6, height: 6, flexShrink: 0, marginTop: 6, background: T.acc, transform: "rotate(45deg)", boxShadow: `0 0 8px rgba(${T.rgb},.7)` }} />
+                          <span style={{ font: "400 .88rem/1.5 'Hanken Grotesk'", color: T.mut }}>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
