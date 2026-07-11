@@ -35,6 +35,18 @@ function GlobalStyles() {
       @media (max-width:640px){
         .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important}
         .cin-dockpill>button{padding:12px 18px!important;font-size:11px!important}
+        .cin-floatswitch{
+          left:50%!important; right:auto!important; top:auto!important; bottom:16px!important;
+          transform:translateX(-50%)!important; max-width:none!important; animation:none!important;
+        }
+        .cin-floatswitch-inner{
+          flex-direction:row!important; width:auto!important; border-radius:18px!important;
+          padding:6px!important; margin-left:0!important;
+          border:1px solid rgba(52,216,173,.3)!important;
+        }
+        .cin-floatswitch-inner button{ padding:11px!important; gap:0!important; }
+        .cin-tabswitch-label{ display:none; }
+        .cin-tabswitch-indicator{ display:none; }
       }
       @media (prefers-reduced-motion: reduce){ .cin-reveal-fwd{animation:none!important;opacity:1!important;transform:none!important} }
     `}</style>
@@ -508,10 +520,12 @@ function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void
   );
 }
 
-/* ── floating drawer tab switcher — slides out from the left edge, Journey-only ── */
+/* ── floating drawer tab switcher — slides out from the left edge on desktop,
+     collapses to a compact icon bar pinned to the bottom on mobile so it
+     never overlaps card content (see .cin-floatswitch media query) ────── */
 function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
   return (
-    <div style={{
+    <div className="cin-floatswitch" style={{
       position: "fixed", left: 0, top: "50%", zIndex: 45,
       transform: "translateY(-50%)",
       maxWidth: visible ? 220 : 0,
@@ -523,7 +537,7 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
         : "max-width .4s cubic-bezier(.5,0,.2,1) 0s, opacity .2s ease 0s",
       animation: visible ? "cin-tabFloat 5s ease-in-out infinite" : "none",
     }}>
-      <div style={{
+      <div className="cin-floatswitch-inner" style={{
         display: "flex", flexDirection: "column", gap: 6, width: 210,
         background: `linear-gradient(160deg, rgba(${T.rgb},.16), rgba(4,16,11,.6))`,
         backdropFilter: "blur(20px)", borderRadius: "0 20px 20px 0",
@@ -548,8 +562,8 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
                 display: "flex", color: active ? T.acc : "inherit",
                 filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
               }}>{TAB_ICON[t]}</span>
-              {t}
-              <span style={{
+              <span className="cin-tabswitch-label">{t}</span>
+              <span className="cin-tabswitch-indicator" style={{
                 position: "absolute", left: -6, top: "50%", transform: "translateY(-50%)",
                 width: 3, height: active ? "60%" : "0%", borderRadius: 99,
                 background: T.acc, boxShadow: active ? `0 0 10px rgba(${T.rgb},.8)` : "none",
