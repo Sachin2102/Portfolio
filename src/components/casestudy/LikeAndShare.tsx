@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ThumbsUp, Share2, Mail } from 'lucide-react';
-import { FaLinkedin } from 'react-icons/fa';
+import { ThumbsUp, Share2 } from 'lucide-react';
 import { supabase, supabaseEnabled } from '@/lib/supabase';
 
 const SLUG = 'grammarly';
@@ -43,7 +42,15 @@ export default function LikeAndShare({ accent, dim, card, border }: { accent: st
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-  const copyLink = async () => {
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Grammarly's Conversion Problem — PM Case Study", url: shareUrl });
+        return;
+      } catch {
+        /* user cancelled or share unavailable, fall through to copy */
+      }
+    }
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
@@ -54,49 +61,31 @@ export default function LikeAndShare({ accent, dim, card, border }: { accent: st
   };
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 32 }}>
-      <div>
-        <button
-          onClick={handleLike}
-          disabled={!supabaseEnabled}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 10, padding: '10px 18px', borderRadius: 9999,
-            background: liked ? `${accent}22` : card, border: `1px solid ${liked ? accent : border}`,
-            color: liked ? accent : dim, cursor: !supabaseEnabled ? 'default' : 'pointer', fontWeight: 600, fontSize: '0.95rem',
-          }}
-        >
-          <ThumbsUp size={16} fill={liked ? accent : 'none'} />
-          {likes ? likes : 'Like'}
-        </button>
-      </div>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
+      <button
+        onClick={handleLike}
+        disabled={!supabaseEnabled}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 10, padding: '10px 18px', borderRadius: 9999,
+          background: liked ? `${accent}22` : card, border: `1px solid ${liked ? accent : border}`,
+          color: liked ? accent : dim, cursor: !supabaseEnabled ? 'default' : 'pointer', fontWeight: 600, fontSize: '0.95rem',
+        }}
+      >
+        <ThumbsUp size={16} fill={liked ? accent : 'none'} />
+        {likes ? likes : 'Like'}
+      </button>
 
       <div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-            target="_blank" rel="noopener noreferrer"
-            style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: card, border: `1px solid ${border}`, color: dim }}
-            aria-label="Share on LinkedIn"
-          >
-            <FaLinkedin size={16} />
-          </a>
-          <a
-            href={`mailto:?subject=${encodeURIComponent("Grammarly's Conversion Problem — PM Case Study")}&body=${encodeURIComponent(shareUrl)}`}
-            style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: card, border: `1px solid ${border}`, color: dim }}
-            aria-label="Share via email"
-          >
-            <Mail size={16} />
-          </a>
-          <button
-            onClick={copyLink}
-            style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: card, border: `1px solid ${border}`, color: dim, cursor: 'pointer' }}
-            aria-label="Copy link"
-            title={copied ? 'Copied!' : 'Copy link'}
-          >
-            <Share2 size={16} />
-          </button>
-        </div>
-        {copied && <div style={{ fontSize: '0.8rem', color: accent, marginTop: 6 }}>Link copied</div>}
+        <button
+          onClick={handleShare}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10, padding: '10px 18px', borderRadius: 9999,
+            background: card, border: `1px solid ${border}`, color: dim, cursor: 'pointer', fontWeight: 600, fontSize: '0.95rem',
+          }}
+        >
+          <Share2 size={16} />
+          {copied ? 'Copied!' : 'Share'}
+        </button>
       </div>
     </div>
   );
