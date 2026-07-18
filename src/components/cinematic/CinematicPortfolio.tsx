@@ -643,7 +643,7 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
 
 /* ── JOURNEY ──────────────────────────────────────────────────── */
 function Journey() {
-  const [tab, setTab] = useState<Tab>("Experience");
+  const [tab, setTab] = useState<Tab>("Education");
   const items = tab === "Experience" ? experience : tab === "Certifications" ? certs : edu;
   const refs = useStackScale(items.length, 110, 20);
 
