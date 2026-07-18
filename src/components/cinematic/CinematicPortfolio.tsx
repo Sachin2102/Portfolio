@@ -731,8 +731,8 @@ function CaseStudies() {
       <Reveal><h2 style={{ textAlign: "center", margin: "0 0 clamp(28px,4vw,48px)", fontWeight: 800, fontSize: "clamp(2.6rem,10vw,8rem)", lineHeight: 0.9, letterSpacing: "-.03em", textTransform: "uppercase", background: `linear-gradient(120deg,${T.acc2},${T.acc})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>Case Studies</h2></Reveal>
       <div style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%,420px),1fr))", gap: 26 }}>
         {caseStudies.map((cs) => (
-          <Reveal key={cs.num}>
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: 24, padding: "30px 32px", background: `linear-gradient(150deg,${T.bg2},${T.bg0})`, border: `1px solid rgba(${T.rgb},.16)`, minHeight: 300, display: "flex", flexDirection: "column" }}>
+          <Reveal key={cs.num} style={{ height: "100%" }}>
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: 24, padding: "30px 32px", background: `linear-gradient(150deg,${T.bg2},${T.bg0})`, border: `1px solid rgba(${T.rgb},.16)`, height: "100%", minHeight: 300, display: "flex", flexDirection: "column" }}>
               <span style={{ position: "absolute", top: 8, right: 24, fontWeight: 800, fontSize: 130, lineHeight: 1, color: `rgba(${T.rgb},.08)`, pointerEvents: "none" }}>{cs.num}</span>
               <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 22 }}>
                 <div style={{ width: 100, height: 100, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
