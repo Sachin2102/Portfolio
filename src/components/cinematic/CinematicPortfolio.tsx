@@ -243,7 +243,7 @@ const edu: JCard[] = [
 
 const caseStudies = [
   { num: "01", logo: "/grammarly.png", eyebrow: "Freemium SaaS · Conversion", title: "Why 30M Daily Users Don't Pay", body: "A product teardown of Grammarly's monetization gap, where $0.70 in user revenue meets a $12/month Pro plan. It includes three personas, a matrix comparing eight tools, and four product changes with associated metrics.", chips: [{ k: "30M+", v: "Daily Users" }, { k: "$13B", v: "Valuation" }, { k: "~5%", v: "Conversion" }], cta: "Read Case Study", href: "/case-study/grammarly" },
-  { num: "02", logo: "/whatsapp.png", eyebrow: "B2B Platform · Monetisation", title: "Scaling B2B To 2B Users", body: "A comprehensive analysis of WhatsApp's B2B growth and monetization model, focusing on the Business API, platform strategy, and how over 2 billion users convert into enterprise revenue.", chips: [], cta: "Coming Soon", href: null },
+  { num: "02", logo: "/whatsapp.png", eyebrow: "Product Strategy · Platform Economics", title: "THE WHATSAPP PARADOX", body: "Breaking down WhatsApp's platform strategy, monetization engine, AI roadmap, revenue streams, and product decisions to understand how the world's largest messaging app builds a multi-billion-dollar business.", chips: [{ k: "3B+", v: "Monthly Users" }, { k: "$2.44B", v: "Revenue (2025)" }, { k: "$0.80", v: "ARPU / Year" }, { k: "87%", v: "DAU/MAU Ratio" }], cta: "Coming Soon", href: null },
 ];
 
 const projects = [
@@ -742,24 +742,26 @@ function CaseStudies() {
               </div>
               <h3 style={{ margin: "0 0 14px", fontWeight: 800, fontSize: "clamp(1.5rem,3vw,2rem)", lineHeight: 1.05, textTransform: "uppercase", color: T.txt }}>{cs.title}</h3>
               <p style={{ margin: "0 0 20px", font: "400 .92rem/1.65 'Hanken Grotesk'", color: T.mut, maxWidth: "44ch" }}>{cs.body}</p>
-              <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
-                {cs.chips.length > 0 ? (
-                  <>
+              <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 16 }}>
+                {cs.chips.length > 0 && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 10 }}>
                     {cs.chips.map((ch) => (
-                      <div key={ch.v} style={{ background: `rgba(${T.rgb},.1)`, border: `1px solid rgba(${T.rgb},.3)`, borderRadius: 14, padding: "12px 18px", textAlign: "center" }}>
+                      <div key={ch.v} style={{ background: `rgba(${T.rgb},.1)`, border: `1px solid rgba(${T.rgb},.3)`, borderRadius: 14, padding: "12px 14px", textAlign: "center" }}>
                         <div style={{ fontWeight: 800, fontSize: 20, color: T.acc2, lineHeight: 1.15 }}>{ch.k}</div>
                         <div style={{ font: "600 10px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", textTransform: "uppercase", color: T.mut, marginTop: 5 }}>{ch.v}</div>
                       </div>
                     ))}
-                    {cs.href ? (
-                      <a href={cs.href} style={{ marginLeft: "auto", font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", textTransform: "uppercase", color: T.bg0, background: `linear-gradient(90deg,${T.acc},${T.acc2})`, padding: "15px 26px", borderRadius: 99, whiteSpace: "nowrap", textDecoration: "none" }}>{cs.cta} →</a>
-                    ) : (
-                      <span style={{ marginLeft: "auto", font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", textTransform: "uppercase", color: T.bg0, background: `linear-gradient(90deg,${T.acc},${T.acc2})`, padding: "15px 26px", borderRadius: 99, whiteSpace: "nowrap" }}>{cs.cta} →</span>
-                    )}
-                  </>
-                ) : (
-                  <span style={{ font: "700 12px/1 'JetBrains Mono',monospace", letterSpacing: ".16em", textTransform: "uppercase", color: T.acc, background: `rgba(${T.rgb},.1)`, border: `1px solid rgba(${T.rgb},.3)`, padding: "12px 26px", borderRadius: 99 }}>{cs.cta}</span>
+                  </div>
                 )}
+                <div style={{ display: "flex", justifyContent: cs.chips.length > 0 ? "flex-end" : "center" }}>
+                  {cs.href ? (
+                    <a href={cs.href} style={{ font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", textTransform: "uppercase", color: T.bg0, background: `linear-gradient(90deg,${T.acc},${T.acc2})`, padding: "15px 26px", borderRadius: 99, whiteSpace: "nowrap", textDecoration: "none" }}>{cs.cta} →</a>
+                  ) : cs.chips.length > 0 ? (
+                    <span style={{ font: "700 13px/1 'JetBrains Mono',monospace", letterSpacing: ".1em", textTransform: "uppercase", color: T.bg0, background: `linear-gradient(90deg,${T.acc},${T.acc2})`, padding: "15px 26px", borderRadius: 99, whiteSpace: "nowrap" }}>{cs.cta} →</span>
+                  ) : (
+                    <span style={{ font: "700 12px/1 'JetBrains Mono',monospace", letterSpacing: ".16em", textTransform: "uppercase", color: T.acc, background: `rgba(${T.rgb},.1)`, border: `1px solid rgba(${T.rgb},.3)`, padding: "12px 26px", borderRadius: 99 }}>{cs.cta}</span>
+                  )}
+                </div>
               </div>
             </div>
           </Reveal>
