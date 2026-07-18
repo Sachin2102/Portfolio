@@ -144,17 +144,19 @@ export default function CaseStudyGrammarly() {
             ← BACK TO PORTFOLIO
           </button>
 
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px', borderRadius: 9999, fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', background: 'rgba(21,176,119,0.1)', color: ACCENT, border: 'rgba(21,176,119,0.2) 1px solid', marginBottom: 16 }}>
-            PM CASE STUDY · JUNE 2026
-          </div>
+          {/*<div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px', borderRadius: 9999, fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', background: 'rgba(21,176,119,0.1)', color: ACCENT, border: 'rgba(21,176,119,0.2) 1px solid', marginBottom: 16 }}>*/}
+          {/*  CASE STUDY · 27 JUNE 2026 · By Sachin Rai*/}
+          {/*</div>*/}
 
-          <div style={{ fontSize: '0.95rem', color: DIM, marginBottom: 16 }}>By Sachin Rai</div>
+          {/*<div style={{ fontSize: '0.95rem', color: DIM, marginBottom: 16 }}>By Sachin Rai</div>*/}
 
           <div style={{ marginBottom: 24 }}>
             <h1 style={{ fontWeight: 900, lineHeight: 1, color: TEXT, fontSize: 'clamp(2.8rem,7vw,5.5rem)', fontFamily: "'Times New Roman', Times, serif" }}>Grammarly's</h1>
             <h1 style={{ fontWeight: 900, lineHeight: 1, fontFamily: "'Times New Roman', Times, serif", fontSize: 'clamp(2.8rem,7vw,5.5rem)', background: 'linear-gradient(135deg,#15B077 0%,#22d3ee 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Conversion Problem</h1>
           </div>
-
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px', borderRadius: 9999, fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', background: 'rgba(21,176,119,0.1)', color: ACCENT, border: 'rgba(21,176,119,0.2) 1px solid', marginBottom: 16 }}>
+            CASE STUDY · 27 JUNE 2026 · By Sachin Rai
+          </div>
           <p style={{ maxWidth: 640, fontSize: '1.25rem', lineHeight: 1.7, marginBottom: 40, color: MUTED }}>
             Why 30 Million Daily Users Don't Pay and What I'd Build to Fix It
 
