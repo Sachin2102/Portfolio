@@ -36,6 +36,11 @@ function GlobalStyles() {
         .cin-dockpill{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important}
         .cin-dockpill>button{padding:12px 18px!important;font-size:11px!important}
       }
+      @media (max-width:520px){
+        .cin-floatswitch-inner button{ padding:12px!important; gap:0!important; }
+        .cin-tabswitch-label{ display:none; }
+        .cin-tabswitch-indicator{ display:none; }
+      }
       @media (prefers-reduced-motion: reduce){ .cin-reveal-fwd{animation:none!important;opacity:1!important;transform:none!important} }
     `}</style>
   );
@@ -217,7 +222,7 @@ const FOOTER_GITHUB = "https://github.com/Sachin2102";
 type JCard = { num: string; name: string; logo: string | null; logoBg?: string; abbr?: string; role: string; badge: string; dates: string; location: string; tags: string[]; points: string[] };
 
 const experience: JCard[] = [
-  { num: "01", name: "CyberAlliance", logo: "/logos/cyberalliance.png", role: "Cyber Security Product Manager", badge: "Current", dates: "Jun 2026 – Present", location: "Raleigh, NC", tags: ["Product Strategy", "Roadmap Planning", "Agile Methodology", "Go-To-Market Strategy"], points: ["Defined product requirements, user stories, and acceptance criteria for Sally AI, translating cybersecurity workflows into clear engineering deliverables", "Drove product roadmap planning and backlog prioritization using RICE and MoSCoW frameworks, aligning feature development with business goals and user needs", "Partnered with developers, and leadership teams to transform customer feedback, security telemetry, and market research into AI-powered cybersecurity product features"] },
+  { num: "01", name: "CyberAlliance", logo: "/logos/cyberalliance.png", role: "Cyber Security Product Manager", badge: "Current Internship", dates: "Jun 2026 – Present", location: "Raleigh, NC", tags: ["Product Strategy", "Roadmap Planning", "Agile Methodology", "Go-To-Market Strategy"], points: ["Defined product requirements, user stories, and acceptance criteria for Sally AI, translating cybersecurity workflows into clear engineering deliverables", "Drove product roadmap planning and backlog prioritization using RICE and MoSCoW frameworks, aligning feature development with business goals and user needs", "Partnered with developers, and leadership teams to transform customer feedback, security telemetry, and market research into AI-powered cybersecurity product features"] },
   { num: "02", name: "Qualys", logo: "/logos/qualys.png", role: "QA Engineer", badge: "Full-time", dates: "Apr 2024 – Jul 2025", location: "Pune · Hybrid", tags: ["Product Security", "Vulnerability Detection", "Python Automation", "Linux"], points: ["Reduced vulnerability false positives by 22%, improving detection accuracy and strengthening product reliability across 35+ customer environments", "Developed automation frameworks that accelerated release validation by 40%, enabling faster software delivery and improving engineering efficiency", "Partnered with Product Managers and Engineering teams to analyze customer feedback, prioritize critical issues, and deliver high-quality security features through Agile development"] },
   { num: "03", name: "ShellStrong Technologies", logo: "/logos/shellstrong.png", logoBg: "#0a2418", role: "Digital Forensic Intern", badge: "Internship", dates: "Jul 2023 – Dec 2023", location: "Pune · On-site", tags: ["Evidence Acquisition", "Data Recovery", "File System Analysis"], points: ["Investigated 60+ digital forensic cases, acquiring, preserving, and analyzing digital evidence while maintaining strict chain-of-custody standards for law enforcement investigations", "Performed forensic analysis of mobile devices, computers, and storage media, recovering critical artifacts and producing investigation-ready reports for legal proceedings", "Streamlined digital forensic investigations using industry-standard methodologies, delivering actionable findings that supported government agencies and enterprise stakeholders in critical investigations"] },
   { num: "04", name: "Pune Metro Rail Project", logo: "/logos/pune-metro.png", role: "Security Intern", badge: "Internship", dates: "Jun 2022 – Aug 2022", location: "Pune · On-site", tags: ["Security Audit", "Infrastructure", "Big Data"], points: ["10,000+ passenger records analyzed, identified process gaps", "Security baseline documentation adopted by operations team", "Big data infrastructure and security protocol analysis"] },
@@ -225,12 +230,11 @@ const experience: JCard[] = [
 const certs: JCard[] = [
   { num: "01", name: "Certified Scrum Product Owner", logo: "/logos/CSPO.png", abbr: "CSPO", role: "CSPO · Scrum Alliance", badge: "Certified", dates: "May 2026", location: "ID 001791116", tags: ["PM", "Agile"], points: ["Agile product ownership and backlog prioritization", "Sprint planning across cross-functional teams", "Stakeholder communication and release planning"] },
   { num: "02", name: "Certified ScrumMaster", logo: "/logos/CSM.png", abbr: "CSM", role: "CSM · Scrum Alliance", badge: "Certified", dates: "Oct 2025", location: "ID 001791116", tags: ["PM", "Scrum"], points: ["Facilitate Scrum ceremonies and remove blockers", "Coach teams toward continuous delivery", "Agile metrics and retrospective facilitation"] },
-  { num: "03", name: "Enterprise Design Thinking", logo: "/logos/IBM.png", abbr: "IBM", role: "Practitioner · IBM", badge: "Certified", dates: "May 2026", location: "", tags: ["PM", "UX"], points: ["User-centred product design at enterprise scale", "Empathy mapping and rapid prototyping", "Hill statement and playback facilitation"] },
-  { num: "04", name: "Ethical Hacking Essentials", logo: "/logos/EC_Council.png", abbr: "EHE", role: "EHE · EC-Council", badge: "Certified", dates: "Mar 2024", location: "ID 305947", tags: ["Security"], points: ["Network scanning and vulnerability identification", "Exploitation and post-exploitation methodology", "Ethical hacking tools and reporting"] },
-  { num: "05", name: "Digital Forensics Essentials", logo: "/logos/EC_Council.png", abbr: "DFE", role: "DFE · EC-Council", badge: "Certified", dates: "Nov 2023", location: "ID 266372", tags: ["Security"], points: ["Digital evidence acquisition and preservation", "File-system forensics and timeline analysis", "Chain-of-custody and legal documentation"] },
-  { num: "06", name: "CompTIA PenTest+ Path", logo: "/logos/tryhackme.png", abbr: "THM", role: "TryHackMe", badge: "Certified", dates: "Aug 2021", location: "THM-NO1OGPXQ3P", tags: ["Security"], points: ["Recon, scanning, exploitation, and reporting", "Structured PenTest+ learning path completion", "Hands-on CTF labs and real-world scenarios"] },
-  { num: "07", name: "Product Management Basics Certification", logo: "/logos/Pendo_PM.png", abbr: "PM", role: "Pendo.io", badge: "Certified", dates: "Jun 2026", location: "", tags: ["Product Management", "Customer Success", "Data Analysis", "Product Requirements (PRD)", "Product-Led Growth"], points: ["Core product management fundamentals — discovery to delivery", "Customer success and data-driven prioritization frameworks", "Product-led growth strategy and PRD authoring"] },
-
+  { num: "03", name: "Product Management Basics Certification", logo: "/logos/Pendo_PM.png", abbr: "PM", role: "Pendo.io", badge: "Certified", dates: "Jun 2026", location: "", tags: ["Product Management", "Customer Success", "Data Analysis", "Product Requirements (PRD)", "Product-Led Growth"], points: ["Core product management fundamentals — discovery to delivery", "Customer success and data-driven prioritization frameworks", "Product-led growth strategy and PRD authoring"] },
+  { num: "04", name: "Enterprise Design Thinking", logo: "/logos/IBM.png", abbr: "IBM", role: "Practitioner · IBM", badge: "Certified", dates: "May 2026", location: "", tags: ["PM", "UX"], points: ["User-centred product design at enterprise scale", "Empathy mapping and rapid prototyping", "Hill statement and playback facilitation"] },
+  { num: "05", name: "Ethical Hacking Essentials", logo: "/logos/EC_Council.png", abbr: "EHE", role: "EHE · EC-Council", badge: "Certified", dates: "Mar 2024", location: "ID 305947", tags: ["Security"], points: ["Network scanning and vulnerability identification", "Exploitation and post-exploitation methodology", "Ethical hacking tools and reporting"] },
+  { num: "06", name: "Digital Forensics Essentials", logo: "/logos/EC_Council.png", abbr: "DFE", role: "DFE · EC-Council", badge: "Certified", dates: "Nov 2023", location: "ID 266372", tags: ["Security"], points: ["Digital evidence acquisition and preservation", "File-system forensics and timeline analysis", "Chain-of-custody and legal documentation"] },
+  { num: "07", name: "CompTIA PenTest+ Path", logo: "/logos/tryhackme.png", abbr: "THM", role: "TryHackMe", badge: "Certified", dates: "Aug 2021", location: "THM-NO1OGPXQ3P", tags: ["Security"], points: ["Recon, scanning, exploitation, and reporting", "Structured PenTest+ learning path completion", "Hands-on CTF labs and real-world scenarios"] },
 ];
 const edu: JCard[] = [
   { num: "01", name: "North Carolina State University", logo: "/logo-ncstate.png", role: "Master of Engineering Management", badge: "In Progress", dates: "Aug 2025 – May 2027", location: "Raleigh, NC", tags: ["Product Management", "Project Management", "Product Life Cycle Management", "Managing New Product Creation", "Finance"], points: [] },
@@ -247,7 +251,7 @@ const projects = [
   { index: "02", name: "Kurnicus", category: "Kernel Security · Linux · IoT & Automotive", description: "Kernel-native security telemetry platform for IoT, embedded, and automotive environments. Traces syscalls with <3% CPU overhead, supports offline edge sync, and aligns with ISO 21434 and NIST CSF.", metrics: [{ v: "3%", l: "CPU Overhead" }, { v: "10+", l: "Modules" }, { v: "256MB", l: "Min RAM" }, { v: "0", l: "Config" }], tech: ["Bash", "Python", "Flask", "React", "AWS S3", "AWS EC2", "tshark", "inotify"], github: "https://github.com/Sachin2102/kurnicus", demo: null },
 ];
 
-const TABS = ["Experience", "Certifications", "Education"] as const;
+const TABS = ["Education", "Experience", "Certifications"] as const;
 type Tab = typeof TABS[number];
 
 /* ── logo element ─────────────────────────────────────────────── */
@@ -508,8 +512,82 @@ function DockedTabSwitcher({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void
   );
 }
 
-/* ── floating drawer tab switcher — slides out from the left edge, Journey-only ── */
+/* ── responsive breakpoint hook (used to switch the floating switcher's
+     layout below, keeping the original left-drawer look on desktop and
+     only swapping to a bottom bar on narrow screens) ──────────────── */
+function useIsNarrow(breakpoint = 860) {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const update = () => setNarrow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [breakpoint]);
+  return narrow;
+}
+
+/* ── floating tab switcher ───────────────────────────────────────
+   Desktop: left-side drawer that slides out from the screen edge
+   (the original design). Mobile/narrow (≤860px): a compact bar
+   pinned to the bottom-center instead, since a fixed-width left
+   panel collides with card content once the viewport gets tight. */
 function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: Tab) => void; visible: boolean }) {
+  const narrow = useIsNarrow();
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => { if (!visible) setExpanded(false); }, [visible]);
+
+  if (narrow) {
+    /* Mobile: a small corner FAB instead of a full-width bar, so it never
+       sits on top of the bullet-point text column while scrolling. Tap to
+       reveal the tab list as a compact popover anchored above the FAB. */
+    return (
+      <div style={{
+        position: "fixed", right: 16, bottom: 16, top: "auto", left: "auto", zIndex: 45,
+        transform: visible ? "translateY(0)" : "translateY(16px)",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+        transition: "opacity .35s ease, transform .35s cubic-bezier(.22,1,.36,1)",
+        display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
+      }}>
+        {expanded && (
+          <div style={{
+            display: "flex", flexDirection: "column", gap: 4,
+            background: `linear-gradient(160deg, rgba(${T.rgb},.18), rgba(4,16,11,.9))`,
+            backdropFilter: "blur(20px)", borderRadius: 16,
+            border: `1px solid rgba(${T.rgb},.28)`, padding: 6,
+            boxShadow: `0 24px 60px rgba(0,0,0,.5), 0 0 40px rgba(${T.rgb},.1)`,
+          }}>
+            {TABS.map((t) => {
+              const active = tab === t;
+              return (
+                <button key={t} onClick={() => { setTab(t); setExpanded(false); }} style={{
+                  display: "flex", alignItems: "center", gap: 10, flexShrink: 0,
+                  padding: "10px 14px", borderRadius: 11, border: "none", cursor: "pointer",
+                  font: "700 11px/1 'JetBrains Mono',monospace", letterSpacing: ".05em",
+                  background: active ? `linear-gradient(135deg,${T.acc}22,${T.acc2}11)` : "transparent",
+                  color: active ? T.txt : T.mut, whiteSpace: "nowrap",
+                }}>
+                  <span style={{ display: "flex", color: active ? T.acc : "inherit" }}>{TAB_ICON[t]}</span>
+                  <span>{t}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <button onClick={() => setExpanded((e) => !e)} style={{
+          width: 52, height: 52, borderRadius: "50%", border: `1px solid rgba(${T.rgb},.35)`,
+          background: `linear-gradient(160deg, rgba(${T.rgb},.22), rgba(4,16,11,.85))`,
+          backdropFilter: "blur(20px)", display: "flex", alignItems: "center", justifyContent: "center",
+          color: T.acc, cursor: "pointer", boxShadow: `0 12px 32px rgba(0,0,0,.5), 0 0 24px rgba(${T.rgb},.15)`,
+          animation: !expanded ? "cin-tabFloat 5s ease-in-out infinite" : "none",
+        }}>
+          {TAB_ICON[tab]}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       position: "fixed", left: 0, top: "50%", zIndex: 45,
@@ -548,7 +626,7 @@ function FloatingTabSwitcher({ tab, setTab, visible }: { tab: Tab; setTab: (t: T
                 display: "flex", color: active ? T.acc : "inherit",
                 filter: active ? `drop-shadow(0 0 6px rgba(${T.rgb},.8))` : "none",
               }}>{TAB_ICON[t]}</span>
-              {t}
+              <span>{t}</span>
               <span style={{
                 position: "absolute", left: -6, top: "50%", transform: "translateY(-50%)",
                 width: 3, height: active ? "60%" : "0%", borderRadius: 99,
@@ -607,32 +685,34 @@ function Journey() {
             <div style={{ willChange: "transform" }}>
               <div style={{ position: "relative", overflow: "hidden", borderRadius: 28, background: `linear-gradient(150deg,${T.bg2},${T.bg0})`, border: `1px solid rgba(${T.rgb},.14)`, padding: "clamp(22px,3vw,34px)", boxShadow: "0 20px 50px rgba(0,0,0,.4)" }}>
                 <span style={{ position: "absolute", top: 16, right: 28, font: "700 10px/1 'JetBrains Mono',monospace", letterSpacing: ".2em", color: `rgba(${T.rgb},.4)` }}>{item.num}</span>
-                <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px,2.5vw,26px)", flexWrap: "wrap" }}>
-                  <div style={{ width: 156, height: 156, flexShrink: 0, borderRadius: 20, background: item.logoBg || "transparent", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "clamp(12px,2.5vw,26px)" }}>
+                  <div style={{ width: "clamp(84px,24vw,156px)", height: "clamp(84px,24vw,156px)", flexShrink: 0, borderRadius: 18, background: item.logoBg || "transparent", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: "clamp(8px,1.5vw,12px)" }}>
                     <LogoEl src={item.logo} alt={item.name} abbr={item.abbr} />
                   </div>
-                  <div style={{ flex: 1, minWidth: 220 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                      <span style={{ font: "600 12px/1 'JetBrains Mono',monospace", letterSpacing: ".14em", textTransform: "uppercase", color: T.acc, border: `1px solid rgba(${T.rgb},.35)`, padding: "5px 12px", borderRadius: 99 }}>{item.badge}</span>
-                      <span style={{ font: "400 12px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", color: T.mut }}>{item.dates}</span>
-                      <span style={{ font: "400 12px/1 'JetBrains Mono',monospace", color: T.mut }}>{item.location}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
+                      <span style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".14em", textTransform: "uppercase", color: T.acc, border: `1px solid rgba(${T.rgb},.35)`, padding: "5px 11px", borderRadius: 99 }}>{item.badge}</span>
+                      <span style={{ font: "400 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", color: T.mut }}>{item.dates}</span>
+                      <span style={{ font: "400 11px/1 'JetBrains Mono',monospace", color: T.mut }}>{item.location}</span>
                     </div>
-                    <h3 style={{ margin: "0 0 8px", fontWeight: 800, fontSize: "clamp(1.25rem,2.6vw,1.8rem)", lineHeight: 1.05, textTransform: "uppercase", color: T.txt }}>{item.name}</h3>
-                    <p style={{ margin: "0 0 16px", font: "700 14px/1.4 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", color: T.acc }}>{item.role}</p>
-                    <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: item.points.length ? 16 : 0 }}>
-                      {item.tags.map((tg) => <span key={tg} style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", border: `1px solid rgba(${T.rgb},.25)`, color: T.mut, padding: "5px 11px", borderRadius: 99, background: `rgba(${T.rgb},.05)` }}>{tg}</span>)}
-                    </div>
-                    {item.points.length > 0 && (
-                      <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
-                        {item.points.map((pt, j) => (
-                          <li key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                            <span style={{ width: 6, height: 6, flexShrink: 0, marginTop: 6, background: T.acc, transform: "rotate(45deg)", boxShadow: `0 0 8px rgba(${T.rgb},.7)` }} />
-                            <span style={{ font: "400 .88rem/1.5 'Hanken Grotesk'", color: T.mut }}>{pt}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <h3 style={{ margin: "0 0 6px", fontWeight: 800, fontSize: "clamp(1.05rem,2.6vw,1.8rem)", lineHeight: 1.08, textTransform: "uppercase", color: T.txt }}>{item.name}</h3>
+                    <p style={{ margin: 0, font: "700 clamp(11px,2.4vw,14px)/1.4 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", color: T.acc }}>{item.role}</p>
                   </div>
+                </div>
+                <div style={{ marginTop: "clamp(14px,2.5vw,18px)" }}>
+                  <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: item.points.length ? 16 : 0 }}>
+                    {item.tags.map((tg) => <span key={tg} style={{ font: "600 11px/1 'JetBrains Mono',monospace", letterSpacing: ".06em", textTransform: "uppercase", border: `1px solid rgba(${T.rgb},.25)`, color: T.mut, padding: "5px 11px", borderRadius: 99, background: `rgba(${T.rgb},.05)` }}>{tg}</span>)}
+                  </div>
+                  {item.points.length > 0 && (
+                    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+                      {item.points.map((pt, j) => (
+                        <li key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                          <span style={{ width: 6, height: 6, flexShrink: 0, marginTop: 6, background: T.acc, transform: "rotate(45deg)", boxShadow: `0 0 8px rgba(${T.rgb},.7)` }} />
+                          <span style={{ font: "400 .88rem/1.5 'Hanken Grotesk'", color: T.mut }}>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>

@@ -8,6 +8,8 @@ import CompetitorBarChart from '@/components/casestudy/CompetitorBarChart';
 import SolutionCard from '@/components/casestudy/SolutionCard';
 import MetricsTable from '@/components/casestudy/MetricsTable';
 import PersonaCards from '@/components/casestudy/PersonaCards';
+import LikeAndShare from '@/components/casestudy/LikeAndShare';
+import Comments from '@/components/casestudy/Comments';
 import { Mail, AlertTriangle } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
@@ -146,6 +148,8 @@ export default function CaseStudyGrammarly() {
             PM CASE STUDY · JUNE 2026
           </div>
 
+          <div style={{ fontSize: '0.95rem', color: DIM, marginBottom: 16 }}>By Sachin Rai</div>
+
           <div style={{ marginBottom: 24 }}>
             <h1 style={{ fontWeight: 900, lineHeight: 1, color: TEXT, fontSize: 'clamp(2.8rem,7vw,5.5rem)', fontFamily: "'Times New Roman', Times, serif" }}>Grammarly's</h1>
             <h1 style={{ fontWeight: 900, lineHeight: 1, fontFamily: "'Times New Roman', Times, serif", fontSize: 'clamp(2.8rem,7vw,5.5rem)', background: 'linear-gradient(135deg,#15B077 0%,#22d3ee 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Conversion Problem</h1>
@@ -175,6 +179,10 @@ export default function CaseStudyGrammarly() {
             <p style={{ fontSize: 'clamp(1.1rem,2vw,1.3rem)', fontWeight: 500, lineHeight: 1.6, color: ACCENT }}>
               Grammarly has 30 million people opening its product every single day and earns less than $1 per month from each of them. The Pro plan costs $12/month. That gap is the entire business problem. This case study is about closing it.
             </p>
+          </div>
+
+          <div style={{ marginTop: 32 }}>
+            <LikeAndShare accent={ACCENT} dim={DIM} card={CARD} border={BORDER} />
           </div>
 
           {/*<div style={{ marginTop: 32, fontSize: '1.2rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 12px', color: DIM, fontFamily: "'Times New Roman', Times, serif" }}>*/}
@@ -302,15 +310,15 @@ export default function CaseStudyGrammarly() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {AUDIT_STEPS.map((step, i) => (
               <Reveal key={i} delay={100 * (i + 1)}>
-                <div style={{ display: 'flex', flexDirection: 'row', borderRadius: 16, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
-                  <div style={{ width: 180, padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0, background: CARD2 }}>
+                <div className="audit-step" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', borderRadius: 16, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
+                  <div style={{ width: 180, minWidth: 180, padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0, flexGrow: 1, background: CARD2 }}>
                     <div>
                       <div style={{ fontSize: '1.15rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 8 }}>{step.num}</div>
                       <div style={{ fontSize: '1.25rem', fontWeight: 700, lineHeight: 1.3, color: TEXT }}>{step.label}</div>
                     </div>
                     <div style={{ marginTop: 16, display: 'inline-block', padding: '4px 12px', borderRadius: 9999, fontSize: '1.15rem', fontWeight: 700, background: `${step.badgeColor}18`, color: step.badgeColor, border: `1px solid ${step.badgeColor}40` }}>{step.badge}</div>
                   </div>
-                  <div style={{ padding: 24, flex: 1, background: CARD }}>
+                  <div style={{ padding: 24, flex: '999 1 260px', minWidth: 260, background: CARD }}>
                     <p style={{ fontSize: '1.25rem', lineHeight: 1.7, marginBottom: 16, color: MUTED }}>{step.body}</p>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: 12, background: `${step.problemColor}0d`, border: `1px solid ${step.problemColor}30` }}>
                       <AlertTriangle size={16} style={{ color: step.problemColor, marginTop: 2, flexShrink: 0 }} />
@@ -331,7 +339,7 @@ export default function CaseStudyGrammarly() {
             <p style={{ marginBottom: 40, color: MUTED }}>Grammarly does not have a user acquisition problem. It has a monetisation problem.</p>
           </Reveal>
           <Reveal delay={100}>
-            <div style={{ padding: '24px 32px', borderRadius: 16, marginBottom: 32, background: '#fff', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+            <div style={{ padding: 'clamp(16px,4vw,24px) clamp(16px,4vw,32px)', borderRadius: 16, marginBottom: 32, background: '#fff', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 4, color: '#1e293b' }}>The conversion funnel: where users are lost</h3>
               <p style={{ fontSize: '1.2rem', color: '#94a3b8', marginBottom: 16 }}>Each stage represents estimated users based on public data and industry benchmarks</p>
               <ConversionFunnel />
@@ -366,7 +374,7 @@ export default function CaseStudyGrammarly() {
           <Reveal>
             <div style={{ fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 12 }}>(06) — Research First</div>
             <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 12, color: TEXT }}>What Grammarly Has Already Shipped</h2>
-            <p style={{ color: MUTED, marginBottom: 8 }}>Before proposing solutions, I audited Grammarly's current product state. A PM who suggests features that already exist hasn't done the research.</p>
+            <p style={{ color: MUTED, marginBottom: 8 }}>Before proposing solutions, I audited Grammarly's current product state.</p>
           </Reveal>
           <Reveal delay={100}>
             <div style={{ marginTop: 32, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
@@ -410,8 +418,7 @@ export default function CaseStudyGrammarly() {
         <section id="metrics" style={{ scrollMarginTop: 48 }}>
           <Reveal>
             <div style={{ fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 12 }}>(07) — Metrics & Tradeoffs</div>
-            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 12, color: TEXT }}>How I Would Measure Success</h2>
-            <p style={{ marginBottom: 32, color: MUTED }}>Strong PM thinking involves defining what success looks like before any solutions are proposed.</p>
+            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 32, color: TEXT }}>How I Would Measure Success</h2>
           </Reveal>
           <Reveal delay={100}><div style={{ marginBottom: 48 }}><MetricsTable /></div></Reveal>
           <Reveal delay={200}>
@@ -450,6 +457,13 @@ export default function CaseStudyGrammarly() {
               </Reveal>
             ))}
           </div>
+        </section>
+
+        {/* 09 Comments */}
+        <section id="comments" style={{ scrollMarginTop: 48, marginTop: 64 }}>
+          <Reveal>
+            <Comments accent={ACCENT} dim={DIM} text={TEXT} card={CARD} border={BORDER} muted={MUTED} />
+          </Reveal>
         </section>
 
       </main>
