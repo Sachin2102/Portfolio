@@ -95,6 +95,11 @@ const AUDIT_STEPS = [
   { num: 'Step 3', label: 'The Locked Suggestions View', badge: 'MISSED OPPORTUNITY', badgeColor: '#ef4444', body: "Clicking the banner shows blurred placeholder cards. You can see there are suggestions, but not what they say. This is the right mechanic but the wrong moment.", problem: "Showing blurred suggestions when someone is writing a casual Slack message does not create urgency. Showing them on a job application cover letter does.", problemColor: '#ef4444' },
 ];
 
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useScrollReveal({ delay });
+  return <div ref={ref} className="reveal-on-scroll">{children}</div>;
+}
+
 export default function CaseStudyGrammarly() {
   const [, setLocation] = useLocation();
   const [activeSection, setActiveSection] = useState('overview');
@@ -114,11 +119,6 @@ export default function CaseStudyGrammarly() {
   }, []);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-
-  const Reveal = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-    const ref = useScrollReveal({ delay });
-    return <div ref={ref} className="reveal-on-scroll">{children}</div>;
-  };
 
   return (
     <div style={{ background: BG, minHeight: '100vh', color: TEXT, fontFamily: "'Times New Roman', Times, serif", paddingBottom: 96, position: 'relative' }}>
