@@ -242,7 +242,7 @@ const edu: JCard[] = [
 ];
 
 const caseStudies = [
-  { num: "01", logo: "/grammarly.png", eyebrow: "Freemium SaaS · Conversion", title: "Why 30M Daily Users Don't Pay", body: "A product teardown of Grammarly's monetization gap, where $0.70 in user revenue meets a $12/month Pro plan. It includes three personas, a matrix comparing eight tools, and four product changes with associated metrics.", chips: [{ k: "30M+", v: "Daily Users" }, { k: "$13B", v: "Valuation" }, { k: "~5%", v: "Conversion" }], cta: "Read Case Study", href: "/case-study/grammarly" },
+  { num: "01", logo: "/grammarly.png", eyebrow: "Freemium SaaS · Conversion", title: "Why 30M Daily Users Don't Pay", body: "A product teardown of Grammarly's monetization gap, where $0.70 in user revenue meets a $12/month Pro plan. It includes three personas, a matrix comparing eight tools, and four product changes with associated metrics.", chips: [{ k: "30M+", v: "Daily Active Users" }, { k: "$251.8M", v: "2024 Revenue" }, { k: "$13B", v: "Valuation (2024)" }, { k: "~5%", v: "Est. Paying Users" }], cta: "Read Case Study", href: "/case-study/grammarly" },
   { num: "02", logo: "/whatsapp.png", eyebrow: "Product Strategy · Platform Economics", title: "THE WHATSAPP PARADOX", body: "Breaking down WhatsApp's platform strategy, monetization engine, AI roadmap, revenue streams, and product decisions to understand how the world's largest messaging app builds a multi-billion-dollar business.", chips: [{ k: "3B+", v: "Monthly Users" }, { k: "$2.44B", v: "Revenue (2025)" }, { k: "$0.80", v: "ARPU / Year" }, { k: "87%", v: "DAU/MAU Ratio" }], cta: "Coming Soon", href: null },
 ];
 
