@@ -48,19 +48,31 @@ export default function SolutionCard({ num, title, description, mechanism, guard
           </p>
         </div>
       )}
+      {journey && journey.length > 0 && (
+        <div style={{ paddingTop: 16, borderTop: '1px solid #e2e8f0' }}>
+          <h4 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: 20, color: '#0f172a' }}>The User Journey This Creates</h4>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {journey.map((step, i) => (
+              <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(21,176,119,0.1)', border: '1px solid rgba(21,176,119,0.3)',
+                    color: '#15B077', fontWeight: 700, fontSize: '0.9rem', flexShrink: 0,
+                  }}>{i + 1}</div>
+                  {i < journey.length - 1 && <div style={{ width: 2, flex: 1, minHeight: 24, background: '#e2e8f0', margin: '4px 0' }} />}
+                </div>
+                <p style={{ color: '#475569', lineHeight: 1.7, fontSize: '0.98rem', paddingBottom: i < journey.length - 1 ? 20 : 0 }}>{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div>
         <span style={{ display: 'inline-block', padding: '5px 13px', background: '#fffbeb', color: '#b45309', fontSize: '0.85rem', fontWeight: 700, borderRadius: 9999, border: '1px solid #fde68a' }}>
           Guard-rail: {guardrail}
         </span>
       </div>
-      {journey && journey.length > 0 && (
-        <div style={{ paddingTop: 8, borderTop: '1px solid #e2e8f0' }}>
-          <h4 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: 16, color: '#0f172a' }}>The User Journey This Creates</h4>
-          <ol style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingLeft: 22, color: '#475569', lineHeight: 1.7, fontSize: '0.98rem' }}>
-            {journey.map((step, i) => <li key={i}>{step}</li>)}
-          </ol>
-        </div>
-      )}
     </div>
   );
 }
