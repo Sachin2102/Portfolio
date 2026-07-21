@@ -30,6 +30,7 @@ const sections = [
   { id: 'opportunity', label: 'Opportunity'  },
   { id: 'shipped',     label: "What's Built" },
   { id: 'solutions',   label: 'Solutions'    },
+  { id: 'stop',        label: "What I'd Stop" },
   { id: 'metrics',     label: 'Metrics'      },
   { id: 'takeaways',   label: 'Takeaways'    },
 ];
@@ -43,6 +44,15 @@ const SHIPPED = [
   { mark: '★', title: '8 AI Agents in Grammarly Docs', since: 'August 2025 · BETA', body: 'Reader Reactions, AI Grader, Citation Finder, and AI Chat have been launched in a new Docs interface built on Coda. These features are available ONLY to Business, Enterprise, and Education users. Individual Pro users, who pay $12 per month, do not have access to any of these tools.', highlight: true },
 ];
 
+const SOLUTION_ONE_JOURNEY = [
+  'A free user opens a document. The filename includes terms like "Resume," "Cover Letter," or "Proposal," and the document contains over 400 words in a formal tone.',
+  'Grammarly detects this signal. The content is not read-only; filenames and document structure are designed to ensure privacy.',
+  'A preview of Reader Reactions appears, displaying one genuine, complete first sentence from what Reader Reactions would say about this specific document. This text is not blurred or fabricated.',
+  'The user reads the feedback and recognizes a gap: "Readers may find your opening paragraph vague; consider leading with your key ask." This applies to the document they plan to send for a job they desire.',
+  'An upgrade prompt appears: "See the full Reader Reactions analysis for this document Pro." This option requires just one click; no payment is needed upfront. It offers a 30-minute unlock for this specific document.',
+  'The user experiences the full product on the document that matters most to them. Conversion takes place here, not through a banner or trial countdown, but by the product demonstrating its value on something real.',
+];
+
 const SOLUTIONS = [
   {
     num: '01',
@@ -53,7 +63,7 @@ const SOLUTIONS = [
   },
   {
     num: '02',
-    title: "Fix the Weekly Email — Show the Specific Thing They Missed",
+    title: "Revise the weekly email to highlight the specific item they overlooked",
     description: "Grammarly's weekly Insights email already exists and already goes to all users. But it shows engagement stats (words written, accuracy score, writing streak). It does NOT show what specific Pro or Agent suggestions the user missed that week. This is the gap.",
     mechanism: "Example copy: \"On Tuesday, you wrote an email that contained 847 words and appeared professional. Here’s what Reader Reactions noted: The opening paragraph may be considered vague; it might be more effective to state your main request right at the beginning. This insight was available with Pro, but you missed it.\" Remember, loss aversion is most effective when the loss feels tangible.",
     guardrail: "Target: 3× current email conversion rate. Never reveal the full suggestion text; only the first sentence. Opt-out is immediately available.",
@@ -79,6 +89,35 @@ const RISKS = [
   { risk: 'Weekly email change creates unsubscribes', mitigation: "Changing a well-established email format risks disrupting a high-engagement channel. Mitigation: A/B test on 5% of users first. Set unsubscribe rate increase of >0.5pp as a kill criterion." },
   { risk: 'Voice Profile raises privacy concerns', mitigation: "Storing and profiling writing patterns over 90 days is a GDPR/CCPA concern. Mitigation: make it opt-in (not opt-out), fully visible and deletable, with explicit data processing consent. Cannot ship without legal review." },
   { risk: "Docs free experience cannibalises Pro trials", mitigation: "If a single-document experience is too beneficial, users may never upgrade. Mitigation: limit to one free document per account, not per document. Communicate this limit upfront, before users invest time." },
+];
+
+const STOP_ITEMS = [
+  {
+    title: 'The generic agent preview banner is blurred and lacks proper targeting.',
+    body: [
+      "Currently, the upgrade mechanism displays a blurred suggestion preview after a certain number of uses, which is disconnected from what the user is actually writing. In casual contexts, like a quick Slack message or email, users tend to ignore this prompt, which can lead to frustration. A product manager who reviewed this case study provided a crucial data point: when his team showed users a locked suggestion at an inappropriate time, the dismissal rates spiked, and that user cohort never recovered. This negative impact was not evident after seven days but became clear after ninety days.",
+      'I recommend discontinuing the untargeted version entirely and replacing it with Solution 1, which shows Reader Reactions previews only during high-stakes moments, informed by the file name or document structure.',
+    ],
+    insights: [
+      'There is an approximately 85% dismissal rate for generic SaaS upgrade banners triggered by usage counters that lack context.',
+      'Conversion rates are 8 to 12 times higher when the upgrade prompt is related to a high-stakes document rather than casual usage.',
+      'Trust damage from a poorly timed paywall may not appear in short-term A/B tests but will show up in the 90-day retention report instead.',
+    ],
+  },
+  {
+    title: 'The format for the vanity statistics in the weekly email.',
+    body: [
+      "Grammarly's current weekly Insights email includes metrics such as word count, writing streak, and accuracy score. However, James, the working professional persona in this case study, tends to skim through the email and close it without finding any actionable insights about his writing. Instead of continuing to send this stat-heavy version, I would suggest replacing it with Solution 2: a single, specific suggestion based on a document the user actually wrote that week. The current format is ineffective and costs Grammarly a valuable high-intent touchpoint every seven days.",
+      "Generic SaaS promotional emails typically have an open rate of 18–22%, and most free users do not engage with upgrade pitches. In contrast, behavioral emails that highlight the user's own usage data have an open rate of 45–55%. This change in approach could double the open rate. Furthermore, personalized usage-based emails result in three times higher conversion rates compared to generic promotional emails.",
+    ],
+  },
+  {
+    title: 'Locking Docs and AI Agents behind Business and Enterprise only.',
+    body: [
+      'Grammarly possesses exceptional features like Reader Reactions, AI Grader, Citation Finder, and the Docs environment, yet these remain hidden from individual Pro and free users. This glaring value gap must be addressed. I recommend replacing the all-or-nothing enterprise model with a capped individual Pro access option, allowing five Agent uses per month and one free Docs document. This change will empower users to experience the product and drive them towards committing to a Business plan, ultimately converting potential advocates and enhancing word-of-mouth promotion.',
+      "Currently, none of the 28.5 million daily users have encountered Grammarly's AI Agents, even though they are crucial differentiators. Even a modest 2% increase in conversions could yield an astounding $86.4 million in annual revenue through enhanced feature exposure.",
+    ],
+  },
 ];
 
 const TAKEAWAYS = [
@@ -406,14 +445,78 @@ export default function CaseStudyGrammarly() {
         <section id="solutions" style={{ scrollMarginTop: 48 }}>
           <Reveal>
             <div style={{ fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 12 }}>(06b) — Proposed Solutions</div>
-            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 12, color: TEXT }}>Four Changes I Would Implement Based on the Current Product Status</h2>
-            <p style={{ marginBottom: 40, color: MUTED }}>These solutions are grounded in what Grammarly has already built. Each one addresses a gap that exists today.</p>
+            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 12, color: TEXT }}>Proposed Solutions Based on the Current State of the Product</h2>
+            <p style={{ fontSize: '1.2rem', marginBottom: 40, color: MUTED }}>These solutions are based on what Grammarly has already developed. Each one fills a gap that currently exists, rather than being a feature Grammarly already offers or a generic freemium strategy suggestion.</p>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {SOLUTIONS.map((s, i) => (
-              <SolutionCard key={i} index={i} num={s.num} title={s.title} description={s.description} mechanism={s.mechanism} guardrail={s.guardrail} />
+              <React.Fragment key={i}>
+                {i === 1 && (
+                  <Reveal>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 20, margin: '20px 0 4px' }}>
+                      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, transparent, ${BORDER})` }} />
+                      <span style={{ fontSize: 'clamp(1.3rem,4.5vw,2.3rem)', fontWeight: 700, fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.05em', textTransform: 'uppercase', color: ACCENT, textAlign: 'center', flexShrink: 1, minWidth: 0 }}>Supporting Initiatives</span>
+                      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${BORDER}, transparent)` }} />
+                    </div>
+                  </Reveal>
+                )}
+                <SolutionCard
+                  index={i}
+                  num={s.num}
+                  title={s.title}
+                  description={s.description}
+                  mechanism={i === 0 ? undefined : s.mechanism}
+                  guardrail={s.guardrail}
+                  primary={i === 0}
+                  journey={i === 0 ? SOLUTION_ONE_JOURNEY : undefined}
+                />
+              </React.Fragment>
             ))}
           </div>
+        </section>
+
+        {/* 06c What I'd Stop */}
+        <section id="stop" style={{ scrollMarginTop: 48 }}>
+          <Reveal>
+            <div style={{ fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 12 }}>(06c) — What I'd Stop</div>
+            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 12, color: TEXT }}>Every Yes Is a No Somewhere Else</h2>
+            <p style={{ fontSize: '1.2rem', marginBottom: 40, color: MUTED }}>Implementing four new initiatives necessitates ceasing some activities. Engineering time, design capacity, and product focus are limited resources. Therefore, I would specifically deprioritize these areas to create space for the proposed solutions.</p>
+          </Reveal>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 40 }}>
+            {STOP_ITEMS.map((item, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <div style={{ padding: 'clamp(1.5rem,3vw,2rem)', borderRadius: 16, background: CARD, border: `1px solid ${BORDER}`, borderLeft: '4px solid #ef4444' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 16 }}>
+                    <span style={{ color: '#ef4444', fontSize: '1.4rem', fontWeight: 700, flexShrink: 0, lineHeight: 1.4 }}>✖</span>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: TEXT, lineHeight: 1.3 }}>{item.title}</h3>
+                  </div>
+                  {item.body.map((p, j) => (
+                    <p key={j} style={{ fontSize: '1.2rem', color: MUTED, lineHeight: 1.7, marginBottom: j === item.body.length - 1 && !item.insights ? 0 : 16 }}>{p}</p>
+                  ))}
+                  {item.insights && (
+                    <div style={{ marginTop: 20, padding: 16, borderRadius: 12, background: CARD2, border: `1px solid ${BORDER}` }}>
+                      <div style={{ fontSize: '1rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: ACCENT, marginBottom: 10 }}>Key Insights</div>
+                      <ul style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {item.insights.map((ins, k) => (
+                          <li key={k} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '1.2rem', color: MUTED, lineHeight: 1.6 }}>
+                            <div style={{ width: 6, height: 6, borderRadius: '50%', background: ACCENT, marginTop: 8, flexShrink: 0 }} />
+                            {ins}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal>
+            <p style={{ fontSize: 'clamp(1.1rem,2vw,1.3rem)', fontWeight: 500, lineHeight: 1.6, color: ACCENT, padding: 20, borderRadius: '0 12px 12px 0', background: 'rgba(21,176,119,0.07)', borderLeft: `4px solid ${ACCENT}` }}>
+              It's time to shift the focus from the instinct to add features to a more disciplined approach of stopping and reassessing. The proposed changes will liberate engineering capacity and eliminate conversion friction without the need for any new code.
+            </p>
+          </Reveal>
         </section>
 
         {/* 07 Metrics */}
