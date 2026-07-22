@@ -10,7 +10,7 @@ import MetricsTable from '@/components/casestudy/MetricsTable';
 import PersonaCards from '@/components/casestudy/PersonaCards';
 import LikeAndShare from '@/components/casestudy/LikeAndShare';
 import Comments from '@/components/casestudy/Comments';
-import { Mail, AlertTriangle } from 'lucide-react';
+import { Mail, AlertTriangle, ExternalLink } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const BG     = "#0e1117";
@@ -33,6 +33,7 @@ const sections = [
   { id: 'stop',        label: "What I'd Stop" },
   { id: 'metrics',     label: 'Metrics'      },
   { id: 'takeaways',   label: 'Takeaways'    },
+  { id: 'sources',     label: 'Sources'      },
 ];
 
 const SHIPPED = [
@@ -91,6 +92,31 @@ const RISKS = [
   { risk: "Docs free experience cannibalises Pro trials", mitigation: "If a single-document experience is too beneficial, users may never upgrade. Mitigation: limit to one free document per account, not per document. Communicate this limit upfront, before users invest time." },
 ];
 
+const SOURCES = [
+  {
+    group: 'Grammarly Data',
+    items: [
+      { label: 'Grammarly AI Statistics - Electroiq', href: 'https://electroiq.com/stats/grammarly-ai-statistics/', note: 'DAU, revenue, enterprise users' },
+      { label: 'Grammarly Revenue - Latka', href: 'https://getlatka.com/blog/grammarly-revenue', note: '$251.8M revenue (2024)' },
+      { label: 'Grammarly $13B Valuation - TechCrunch', href: 'https://techcrunch.com/2021/11/17/grammarly-raises-200m-at-a-13b-valuation-to-make-you-an-even-better-writer-through-ai/', note: 'funding & valuation' },
+    ],
+  },
+  {
+    group: 'Freemium & Conversion Benchmarks',
+    items: [
+      { label: 'SaaS Freemium Conversion Rates - First Page Sage', href: 'https://firstpagesage.com/seo-blog/saas-freemium-conversion-rates/', note: '~2-5% free-to-paid benchmark' },
+      { label: 'Freemium Conversion Rate Benchmarks - Daydream', href: 'https://www.withdaydream.com/library/insights/freemium-conversion-rate', note: 'contextual vs generic upgrade prompts (4.2% vs 1.3%)' },
+    ],
+  },
+  {
+    group: 'Email Benchmarks',
+    items: [
+      { label: 'Email Marketing Benchmarks - MailerLite', href: 'https://www.mailerlite.com/blog/compare-your-email-performance-metrics-industry-benchmarks', note: 'open rate benchmarks by email type' },
+      { label: 'Personalized Email Marketing Statistics - Stripo', href: 'https://stripo.email/blog/personalized-email-marketing-statistics-why-tailored-campaigns-drive-results/', note: '3× revenue lift from behavioural emails' },
+    ],
+  },
+];
+
 const STOP_ITEMS = [
   {
     title: 'The generic agent preview banner is blurred and lacks proper targeting.',
@@ -99,8 +125,8 @@ const STOP_ITEMS = [
       'I recommend discontinuing the untargeted version entirely and replacing it with Solution 1, which shows Reader Reactions previews only during high-stakes moments, informed by the file name or document structure.',
     ],
     insights: [
-      'There is an approximately 85% dismissal rate for generic SaaS upgrade banners triggered by usage counters that lack context.',
-      'Conversion rates are 8 to 12 times higher when the upgrade prompt is related to a high-stakes document rather than casual usage.',
+      'There is an approximately 85% dismissal rate on generic SaaS upgrade banners (assumption — no public benchmark available).',
+      'Conversion rates are 8–12× higher at high-stakes moments (modelled estimate based on contextual vs generic prompt data).',
       'Trust damage from a poorly timed paywall may not appear in short-term A/B tests but will show up in the 90-day retention report instead.',
     ],
   },
@@ -108,7 +134,12 @@ const STOP_ITEMS = [
     title: 'The format for the vanity statistics in the weekly email.',
     body: [
       "Grammarly's current weekly Insights email includes metrics such as word count, writing streak, and accuracy score. However, James, the working professional persona in this case study, tends to skim through the email and close it without finding any actionable insights about his writing. Instead of continuing to send this stat-heavy version, I would suggest replacing it with Solution 2: a single, specific suggestion based on a document the user actually wrote that week. The current format is ineffective and costs Grammarly a valuable high-intent touchpoint every seven days.",
-      "Generic SaaS promotional emails typically have an open rate of 18–22%, and most free users do not engage with upgrade pitches. In contrast, behavioral emails that highlight the user's own usage data have an open rate of 45–55%. This change in approach could double the open rate. Furthermore, personalized usage-based emails result in three times higher conversion rates compared to generic promotional emails.",
+      "Generic SaaS promotional emails see low engagement from free users, while behavioral emails that highlight the user's own usage data perform meaningfully better. Personalized, usage-based emails also convert at a notably higher rate than generic promotional ones.",
+    ],
+    insights: [
+      <>18–22% open rate for generic SaaS emails (industry est.) — <a href="https://www.mailerlite.com/blog/compare-your-email-performance-metrics-industry-benchmarks" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT, textDecoration: 'underline' }}>MailerLite Benchmarks</a>.</>,
+      '45–55% open rate for behavioural emails (est. — automation emails average 30–45% per industry data).',
+      <>3× higher conversion from personalised emails — Source: <a href="https://stripo.email/blog/personalized-email-marketing-statistics-why-tailored-campaigns-drive-results/" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT, textDecoration: 'underline' }}>Stripo</a>.</>,
     ],
   },
   {
@@ -204,14 +235,19 @@ export default function CaseStudyGrammarly() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 16, marginBottom: 40 }}>
             {[
-              { val: '30M+', label: 'Daily Active Users' },
-              { val: '$251.8M', label: '2024 Revenue' },
+              { val: '30M+', label: 'Daily Active Users', source: 'Electroiq', href: 'https://electroiq.com/stats/grammarly-ai-statistics/' },
+              { val: '$251.8M', label: '2024 Revenue', source: 'Latka', href: 'https://getlatka.com/blog/grammarly-revenue' },
               { val: '$13B', label: 'Valuation (2024)' },
               { val: '~5%', label: 'Est. Paying Users' },
             ].map((stat, i) => (
               <div key={i} style={{ borderRadius: 12, padding: 16, textAlign: 'center', background: CARD, border: `1px solid ${BORDER}` }}>
                 <div style={{ fontSize: '1.7rem', fontWeight: 700, color: TEXT }}>{stat.val}</div>
                 <div style={{ fontSize: '1.15rem', fontFamily: "'Times New Roman', Times, serif", marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.08em', color: DIM }}>{stat.label}</div>
+                {stat.source && (
+                  <div style={{ fontSize: '0.85rem', marginTop: 6, color: 'rgba(230,238,244,0.5)' }}>
+                    Source: <a href={stat.href} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(230,238,244,0.7)', textDecoration: 'underline' }}>{stat.source}</a>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -407,6 +443,9 @@ export default function CaseStudyGrammarly() {
                 </div>
               ))}
             </div>
+            <p style={{ fontSize: '0.95rem', color: DIM, lineHeight: 1.6 }}>
+              Modelled using 30M DAU (<a href="https://electroiq.com/stats/grammarly-ai-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT, textDecoration: 'underline' }}>Electroiq, 2024</a>) × Individual Pro pricing of $12/month × conversion lift scenarios. Current free-to-paid baseline estimated at ~5% per freemium SaaS benchmarks.
+            </p>
           </Reveal>
         </section>
 
@@ -557,6 +596,49 @@ export default function CaseStudyGrammarly() {
                   <div>
                     <h4 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 6, color: TEXT }}>{t.text}</h4>
                     <p style={{ fontSize: '1.2rem', lineHeight: 1.7, color: MUTED }}>{t.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* 08b Sources */}
+        <section id="sources" style={{ scrollMarginTop: 48, marginTop: 64 }}>
+          <Reveal>
+            <div style={{ fontSize: '1.2rem', fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.12em', textTransform: 'uppercase', color: DIM, marginBottom: 12 }}>(08) — References</div>
+            <h2 style={{ fontSize: '2.3rem', fontWeight: 700, marginBottom: 32, color: TEXT }}>Sources</h2>
+          </Reveal>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
+            {SOURCES.map((group, i) => (
+              <Reveal key={i} delay={i * 80}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+                    <div style={{ width: 28, height: 2, background: ACCENT, borderRadius: 99, flexShrink: 0 }} />
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: TEXT, fontFamily: "'Times New Roman', Times, serif", letterSpacing: '0.06em', textTransform: 'uppercase' }}>{group.group}</h3>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
+                    {group.items.map((src, j) => (
+                      <a
+                        key={j}
+                        href={src.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'flex', alignItems: 'flex-start', gap: 10, padding: 16, borderRadius: 12,
+                          background: CARD, border: `1px solid ${BORDER}`, textDecoration: 'none',
+                          transition: 'border-color 0.2s, background 0.2s',
+                        }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = `rgba(21,176,119,0.4)`; (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(21,176,119,0.06)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = BORDER; (e.currentTarget as HTMLAnchorElement).style.background = CARD; }}
+                      >
+                        <ExternalLink size={15} style={{ color: ACCENT, marginTop: 3, flexShrink: 0 }} />
+                        <div>
+                          <div style={{ fontSize: '0.98rem', fontWeight: 700, color: ACCENT, lineHeight: 1.4, marginBottom: 4 }}>{src.label}</div>
+                          <div style={{ fontSize: '0.9rem', color: MUTED, lineHeight: 1.5 }}>{src.note}</div>
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               </Reveal>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const metrics = [
-  { metric: 'Free-to-paid conversion rate',    baseline: '~5% (est.)',         target: '≥7% (+2pp)',          initiative: 'All four',      type: 'target' },
+  { metric: 'Free-to-paid conversion rate',    baseline: <>~5% (est.) — Freemium SaaS benchmark: <a href="https://firstpagesage.com/seo-blog/saas-freemium-conversion-rates/" target="_blank" rel="noopener noreferrer" style={{ color: '#15B077', textDecoration: 'underline' }}>First Page Sage</a></>, target: '≥7% (+2pp)',          initiative: 'All four',      type: 'target' },
   { metric: 'Agent preview click-through',     baseline: 'Measure first',      target: '>12%',                initiative: 'Solution 1',    type: 'target' },
   { metric: 'Agent preview → Pro upgrade (7d)',baseline: 'Measure first',      target: '>8%',                 initiative: 'Solution 1',    type: 'target' },
   { metric: 'Email → upgrade click rate',      baseline: 'Current baseline ×3',target: 'Measurable lift',     initiative: 'Solution 2',    type: 'target' },

@@ -28,18 +28,8 @@ export default function CompetitorBarChart() {
 
   return (
     <div ref={ref} style={{ width: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+      <div style={{ marginBottom: 16 }}>
         <span style={{ fontSize: '0.85rem', fontFamily: "'Space Mono',monospace", textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b' }}>Overall Writing Capability Score</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '0.85rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 12, height: 12, borderRadius: 2, background: '#15B077' }} />
-            <span style={{ color: '#64748b' }}>Grammarly</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 12, height: 12, borderRadius: 2, background: '#cbd5e1' }} />
-            <span style={{ color: '#64748b' }}>Competitor</span>
-          </div>
-        </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {tools.map((tool, i) => (
