@@ -443,7 +443,7 @@ export default function CaseStudyGrammarly() {
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: '0.95rem', color: DIM, lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.95rem', color: DIM, lineHeight: 1.6, padding: 16, borderRadius: 12, background: CARD, border: `1px solid ${BORDER}` }}>
               Modelled using 30M DAU (<a href="https://electroiq.com/stats/grammarly-ai-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT, textDecoration: 'underline' }}>Electroiq, 2024</a>) × Individual Pro pricing of $12/month × conversion lift scenarios. Current free-to-paid baseline estimated at ~5% per freemium SaaS benchmarks.
             </p>
           </Reveal>
